@@ -38,5 +38,9 @@
   "safariShare": "即将共享您的整个屏幕，是否确定共享？",
   "videocalls": "音视频通话",
   "noCameraPerm": "没有摄像头权限!",
-  "noMicPerm": "没有麦克风权限!"
+  "noMicPerm": "没有麦克风权限!",
+  "Beautify": "美颜",
+  "White": "美白",
+  "Smooth": "磨皮",
+  "Sharpen": "锐化"
 }

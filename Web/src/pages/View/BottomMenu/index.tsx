@@ -11,6 +11,7 @@ import DeviceButton from './DeviceButton';
 import ShareButton from './ShareButton';
 import StopShareBtn from './StopShareBtn';
 import { updateLocalUser } from '@/store/slices/room';
+import BeautifyButton from './BeautifyButton';
 
 function BottomMenu() {
   const dispatch = useDispatch();
@@ -49,6 +50,9 @@ function BottomMenu() {
         <DeviceButton deviceType="microphone" onClick={handleSreamPublish} shared />
         <RealTime shared />
         <ShareButton shared />
+
+        <BeautifyButton shared />
+
         <Setting shared />
 
         <StopShareBtn />
@@ -65,6 +69,9 @@ function BottomMenu() {
         <RealTime />
 
         <ShareButton />
+
+        <BeautifyButton />
+
         <Setting />
       </div>
       <Stop />

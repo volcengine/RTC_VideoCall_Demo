@@ -88,6 +88,7 @@
   }
 }
 
+.beautyButtonIcon,
 .shareButtonIcon {
   .cameraButtonIcon();
 
@@ -124,7 +125,7 @@
   .menuButton {
     width: 56px;
   }
-
+  .beautyButtonIcon,
   .cameraButtonIcon,
   .shareButtonIcon {
     transform: translateX(-8px);
@@ -272,6 +273,36 @@
       &:active {
         color: #1d2129;
         background: #f2f3f5;
+      }
+    }
+  }
+}
+
+.beautyContent {
+  background: #1f2127;
+  padding: 12px 12px 16px;
+  border-radius: 8px;
+  width: 240px;
+  color: #fff;
+}
+
+.beautyItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  :global {
+    span {
+      text-align: right;
+      width: 56px;
+    }
+
+    .ant-slider {
+      flex: 1;
+      .ant-slider-track {
+        background-color: #1664ff;
+      }
+      .ant-slider-handle {
+        border: solid 2px #1664ff;
       }
     }
   }

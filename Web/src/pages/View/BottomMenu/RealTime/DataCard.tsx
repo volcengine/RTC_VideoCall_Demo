@@ -61,7 +61,7 @@ function DataCard(props: DataCardProps) {
   return (
     <div className={styles.dataCard}>
       <p className={styles.username}>
-        {data?.username}
+        <span className={styles.usernameWrapper}>{data?.username}</span>
         {data.isLocal ? `(${t('Me')})` : ''}
       </p>
       <div className={styles.dataCardContent}>

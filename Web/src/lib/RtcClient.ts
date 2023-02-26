@@ -19,6 +19,7 @@ import VERTC, {
   TrackCaptureConfig,
 } from '@volcengine/rtc';
 import { v4 as uuid } from 'uuid';
+import RTCBeautyExtension from '@volcengine/rtc/extension-beauty';
 import Utils from '@/utils/utils';
 import { BasicBody } from '@/app/baseQuery';
 
@@ -76,6 +77,8 @@ const DefaultEncoderConfig = {
   maxKbps: 1200,
 };
 
+export const beautyExtension = new RTCBeautyExtension();
+
 export class RtcClient {
   engine!: IRTCEngine;
 
@@ -93,7 +96,9 @@ export class RtcClient {
 
   private _encoderConfig: VideoEncoderConfig | VideoEncoderConfig[] = DefaultEncoderConfig;
 
-  createEngine = (props: EngineOptions): void => {
+  beautyEnabled: boolean = false;
+
+  createEngine = async (props: EngineOptions) => {
     this.config = props;
     this.rtsBody = {
       room_id: props.roomId,
@@ -101,6 +106,14 @@ export class RtcClient {
       login_token: Utils.getLoginToken(),
     };
     this.engine = VERTC.createEngine(this.config.appId);
+    try {
+      await this.engine.registerExtension(beautyExtension);
+      beautyExtension.disable();
+      this.beautyEnabled = true;
+    } catch (error) {
+      console.log((error as any).message);
+      this.beautyEnabled = false;
+    }
   };
 
   joinWithRTS = async () => {

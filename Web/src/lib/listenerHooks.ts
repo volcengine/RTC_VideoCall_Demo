@@ -20,17 +20,18 @@ import {
   localLeaveRoom,
   remoteUserJoin,
   remoteUserLeave,
+  setBeauty,
   startShare,
   stopShare,
   updateLocalUser,
   updateRemoteUser,
 } from '@/store/slices/room';
-import RtcClient, { IEventListener } from './RtcClient';
+import RtcClient, { beautyExtension, IEventListener } from './RtcClient';
 
 import { setMicrophoneList, setCameraList, updateSelectedDevice } from '@/store/slices/device';
 import { resetConfig } from '@/store/slices/stream';
 
-const useRtcListeners = (isDev?: boolean): IEventListener => {
+const useRtcListeners = (isDev: boolean): IEventListener => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -245,7 +246,7 @@ const useRtcListeners = (isDev?: boolean): IEventListener => {
     // }
   };
 
-  const handleOnCloseRoom = (e: { userId: string; message: any }) => {
+  const handleOnCloseRoom = async (e: { userId: string; message: any }) => {
     const { userId, message } = e;
     if (userId !== 'server') {
       return;
@@ -257,6 +258,13 @@ const useRtcListeners = (isDev?: boolean): IEventListener => {
       if (msgObj.data.room_id) {
         Message.error(t('timeout'));
 
+        dispatch(setBeauty(false));
+        if (RtcClient.beautyEnabled) {
+          beautyExtension.disable();
+        }
+        await RtcClient.stopAudioCapture();
+        await RtcClient.stopVideoCapture();
+        await RtcClient.stopScreenCapture();
         RtcClient.leaveRoom();
         dispatch(localLeaveRoom());
         dispatch(resetConfig());

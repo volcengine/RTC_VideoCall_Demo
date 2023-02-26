@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   AudioPropertiesInfo,
   LocalAudioStats,
@@ -26,12 +26,16 @@ export type LocalUser = Omit<IUser, 'audioStats' | 'videoStats'> & {
 
 export interface RoomState {
   time: number;
+  beautyOn: boolean;
+  beautyEnabled: boolean;
   roomId?: string;
   localUser: LocalUser;
   remoteUsers: IUser[];
   shareUser?: string;
 }
 const initialState: RoomState = {
+  beautyOn: false,
+  beautyEnabled: false,
   time: -1,
   remoteUsers: [],
   localUser: {
@@ -115,6 +119,14 @@ export const roomSlice = createSlice({
     updateRoomTime: (state, { payload }) => {
       state.time = payload.time;
     },
+
+    setBeauty: (state, action: PayloadAction<boolean>) => {
+      state.beautyOn = action.payload;
+    },
+
+    setBeautyEnabled: (state, action: PayloadAction<boolean>) => {
+      state.beautyEnabled = action.payload;
+    },
   },
 });
 
@@ -128,6 +140,8 @@ export const {
   startShare,
   stopShare,
   updateRoomTime,
+  setBeauty,
+  setBeautyEnabled,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;

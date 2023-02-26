@@ -4,11 +4,11 @@ import { ExclamationOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import RtcClient from '@/lib/RtcClient';
+import RtcClient, { beautyExtension } from '@/lib/RtcClient';
 import MediaButton from '@/components/MediaButton';
 import { getIcon } from '@/components/MediaButton/utils';
 import styles from './index.module.less';
-import { localLeaveRoom } from '@/store/slices/room';
+import { localLeaveRoom, setBeauty } from '@/store/slices/room';
 import { resetConfig } from '@/store/slices/stream';
 
 function Stop() {
@@ -19,6 +19,11 @@ function Stop() {
 
   const handleStop = async () => {
     RtcClient.sendServerMessage('videocallLeaveRoom');
+    dispatch(setBeauty(false));
+    if (RtcClient.beautyEnabled) {
+      beautyExtension.disable();
+    }
+
     await RtcClient.stopAudioCapture();
     await RtcClient.stopVideoCapture();
     await RtcClient.stopScreenCapture();

@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import styles from './index.module.less';
 import MediaButton from '@/components/MediaButton';
 import { DeviceType } from '@/interface';
-import { localJoinRoom, updateRoomTime } from '@/store/slices/room';
+import { localJoinRoom, setBeautyEnabled, updateRoomTime } from '@/store/slices/room';
 import {
   MediaName,
   medias,
@@ -23,7 +23,7 @@ import { useJoinRTMMutation } from '@/app/roomQuery';
 import { useFreeLogin } from './loginHook';
 import useRtcListeners from '@/lib/listenerHooks';
 import Utils from '@/utils/utils';
-import { BusinessId } from '@/config';
+import { BusinessId, isDev } from '@/config';
 
 export interface FormProps {
   username: string;
@@ -42,7 +42,7 @@ export default function () {
   const { freeLoginApi } = useFreeLogin();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const listeners = useRtcListeners();
+  const listeners = useRtcListeners(isDev);
 
   const [form] = Form.useForm();
   const publishVideo = Form.useWatch('publishVideo', form) ?? true;
@@ -74,7 +74,7 @@ export default function () {
 
       const { response } = joinRtsRes.data;
 
-      RtcClient.createEngine({
+      await RtcClient.createEngine({
         appId: response.app_id,
         roomId: `call_${formValues.roomId}`,
         rtsUid: freeLoginRes.user_id,
@@ -85,6 +85,8 @@ export default function () {
         bid: response.bid,
       });
       RtcClient.setBusinessId(BusinessId);
+
+      dispatch(setBeautyEnabled(RtcClient.beautyEnabled));
 
       await RtcClient.joinWithRTS();
       RtcClient.addEventListeners(listeners);
