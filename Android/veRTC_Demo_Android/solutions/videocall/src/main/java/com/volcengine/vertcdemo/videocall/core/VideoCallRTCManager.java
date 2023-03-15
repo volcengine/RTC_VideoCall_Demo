@@ -244,11 +244,9 @@ public class VideoCallRTCManager {
             Log.d(TAG, String.format("onUserPublishStream: %s %s", uid, type.toString()));
             if (type == MediaStreamType.RTC_MEDIA_STREAM_TYPE_BOTH) {
                 VideoCallDataManager.ins().updateAudioStatus(uid, true);
-                VideoCallDataManager.ins().updateVideoStatus(uid, true);
             } else if (type == MediaStreamType.RTC_MEDIA_STREAM_TYPE_AUDIO) {
                 VideoCallDataManager.ins().updateAudioStatus(uid, true);
             } else if (type == MediaStreamType.RTC_MEDIA_STREAM_TYPE_VIDEO) {
-                VideoCallDataManager.ins().updateVideoStatus(uid, true);
             }
         }
 
@@ -264,11 +262,9 @@ public class VideoCallRTCManager {
             Log.d(TAG, String.format("onUserUnPublishStream: %s, %s, %s", uid, type.toString(), reason.toString()));
             if (type == MediaStreamType.RTC_MEDIA_STREAM_TYPE_BOTH) {
                 VideoCallDataManager.ins().updateAudioStatus(uid, false);
-                VideoCallDataManager.ins().updateVideoStatus(uid, false);
             } else if (type == MediaStreamType.RTC_MEDIA_STREAM_TYPE_AUDIO) {
                 VideoCallDataManager.ins().updateAudioStatus(uid, false);
             } else if (type == MediaStreamType.RTC_MEDIA_STREAM_TYPE_VIDEO) {
-                VideoCallDataManager.ins().updateVideoStatus(uid, false);
             }
         }
 
@@ -576,6 +572,10 @@ public class VideoCallRTCManager {
         Log.d(TAG, String.format("startVideoCapture: %b", on));
         if (!hasCameraPermission()) {
             mIsCameraOn = false;
+            if (mRTCVideo != null) {
+                mRTCVideo.stopVideoCapture();
+            }
+
             SafeToast.show(R.string.request_camera_permission_tip);
             return;
         }

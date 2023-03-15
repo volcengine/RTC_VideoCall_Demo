@@ -46,14 +46,14 @@ VideoCallMainPage::~VideoCallMainPage() {
     delete ui;
 }
 
-void VideoCallMainPage::updateVideoWidget() {
+void VideoCallMainPage::updateVideoWidget(bool update_canvas) {
     auto vec = videocall::DataMgr::instance().users();
     for (size_t i = 0; i < vec.size(); i++) {
         if (vec[i].user_id == videocall::DataMgr::instance().user_id()) {
-            videocall::VideoCallManager::setLocalVideoWidget(vec[i], i);
+            videocall::VideoCallManager::setLocalVideoWidget(vec[i], i, update_canvas);
         }
         else {
-            videocall::VideoCallManager::setRemoteVideoWidget(vec[i], i);
+            videocall::VideoCallManager::setRemoteVideoWidget(vec[i], i, update_canvas);
         }
     }
     showWidget(vec.size());

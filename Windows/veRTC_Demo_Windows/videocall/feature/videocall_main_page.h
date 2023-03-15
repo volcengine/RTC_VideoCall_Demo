@@ -13,7 +13,7 @@ public:
 	explicit VideoCallMainPage(QWidget* parent = nullptr);
 	~VideoCallMainPage();
 
-	void updateVideoWidget();
+	void updateVideoWidget(bool update_canvas = true);
 	void showWidget(int cnt);
 	void changeViewMode(int mode);
 	 int viewMode();

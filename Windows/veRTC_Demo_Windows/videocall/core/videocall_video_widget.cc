@@ -38,6 +38,7 @@ VideoCallVideoWidget::HasVideoWidget::HasVideoWidget(QWidget* parent /*= nullptr
         "font-family: \"Microsoft YaHei\";\n"
         "font-size: 12px;\n");
     video_->setStyleSheet("background:#272e3B;");
+    video_->setUpdatesEnabled(false);
     setShare(false);
 }
 

@@ -89,7 +89,7 @@ void VideoCallLoginWidget::initConnections() {
             if (login_) return;
             login_ = true;
             videocall::DataMgr::instance().setUserName(std::string(ui.edt_user_name->text().toUtf8()));
-            ////清除可能在其他房间的相同用户
+            //清除可能在其他房间的相同用户
             vrd::VideoCallSession::instance().cleanUser(videocall::DataMgr::instance().user_id(), 
                 [=](int code) {
                     auto roomId = QString("call_").append(ui.edt_room_id->text());

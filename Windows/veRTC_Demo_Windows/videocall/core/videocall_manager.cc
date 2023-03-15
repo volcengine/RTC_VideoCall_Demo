@@ -119,7 +119,7 @@ void VideoCallManager::init() {
             }
 
             ForwardEvent::PostEvent(&VideoCallManager::instance(), [] {
-                updateData();
+                updateData(false);
             });
         });
 
@@ -303,10 +303,13 @@ int VideoCallManager::showCallExpDlg(QWidget* parent) {
     return quit_dlg->exec();
 }
 
-void VideoCallManager::setLocalVideoWidget(const User& user, int idx) {
-    VideoCallRtcEngineWrap::setupLocalView(
-        videocall::VideoCallManager::getVideoList()[idx]->getWinID(),
-        bytertc::RenderMode::kRenderModeHidden, "local");
+void VideoCallManager::setLocalVideoWidget(const User& user, int idx, bool update_canvas) {
+    if (update_canvas) {
+        VideoCallRtcEngineWrap::setupLocalView(
+            videocall::VideoCallManager::getVideoList()[idx]->getWinID(),
+            bytertc::RenderMode::kRenderModeHidden, "local");
+    }
+
 
     auto isLocalCameraOn = !videocall::DataMgr::instance().mute_video();
     videocall::VideoCallManager::getVideoList()[idx]->setUserName(
@@ -318,10 +321,13 @@ void VideoCallManager::setLocalVideoWidget(const User& user, int idx) {
     videocall::VideoCallManager::getVideoList()[idx]->setUserLogoSize();
 }
 
-void VideoCallManager::setRemoteVideoWidget(const User& user, int idx) {
-    VideoCallRtcEngineWrap::setupRemoteView(
-        videocall::VideoCallManager::getVideoList()[idx]->getWinID(),
-        bytertc::RenderMode::kRenderModeHidden, user.user_id);
+void VideoCallManager::setRemoteVideoWidget(const User& user, int idx, bool update_canvas) {
+    if (update_canvas) {
+        VideoCallRtcEngineWrap::setupRemoteView(
+            videocall::VideoCallManager::getVideoList()[idx]->getWinID(),
+            bytertc::RenderMode::kRenderModeHidden, user.user_id);
+    }
+
     videocall::VideoCallManager::getVideoList()[idx]->setUserName(
         user.user_name.c_str());
     videocall::VideoCallManager::getVideoList()[idx]->setShare(user.is_sharing);
@@ -406,12 +412,12 @@ std::shared_ptr<VideoCallVideoWidget> VideoCallManager::getScreenVideo() {
     return instance().screen_widget_;
 }
 
-void VideoCallManager::updateData() {
+void VideoCallManager::updateData(bool update_canvas) {
     if (instance().updating) {
         return;
     }
     instance().updating = true;
-    instance().main_page_->updateVideoWidget();
+    instance().main_page_->updateVideoWidget(update_canvas);
     instance().updating = false;
 }
 

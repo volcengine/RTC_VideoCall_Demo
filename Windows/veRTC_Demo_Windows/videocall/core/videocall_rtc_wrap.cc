@@ -391,6 +391,7 @@ void VideoCallRtcEngineWrap::onVideoStateChanged(std::string device_id,
 		}
 		videocall::DataMgr::instance().setMuteVideo(true);
 		VideoCallRtcEngineWrap::muteLocalVideo(true);
+		VideoCallRtcEngineWrap::enableLocalVideo(false);
 		emit instance().sigUpdateVideo();
 
 	} else {

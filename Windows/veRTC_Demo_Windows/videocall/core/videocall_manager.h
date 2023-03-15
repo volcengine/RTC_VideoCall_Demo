@@ -37,8 +37,8 @@ public:
     static void showShareControlBar();
 
     static int showCallExpDlg(QWidget* parent = nullptr);
-    static void setLocalVideoWidget(const videocall::User& user, int idx);
-    static void setRemoteVideoWidget(const videocall::User& user, int idx);
+    static void setLocalVideoWidget(const videocall::User& user, int idx, bool update_canvas = true);
+    static void setRemoteVideoWidget(const videocall::User& user, int idx, bool update_canvas = true);
     static void setRemoteScreenVideoWidget(const videocall::User& user);
 
     static void initRoom();
@@ -48,7 +48,7 @@ public:
     static std::vector<std::shared_ptr<VideoCallVideoWidget>> getVideoList();
     static std::shared_ptr<VideoCallVideoWidget> getCurrentVideo();
     static std::shared_ptr<VideoCallVideoWidget> getScreenVideo();
-    static void updateData();
+    static void updateData(bool update_canvas = true);
     static void videoCallNotify();
     static void stopScreen();
 
