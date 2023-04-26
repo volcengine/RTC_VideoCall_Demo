@@ -32,16 +32,16 @@
 
 ### 步骤 3：构建工程
 
-1. 使用 Android Studio 打开该项目的`VideoCallDemo/Android/veRTC_Demo_Android` 文件夹
+1. 使用 Android Studio 打开该项目的`VideoCallDemo/Android/RTCSolution` 文件夹
 
 2. 填写 **HEAD_URL。** <br>
-    进入 `scene-core/gradle.properties` 文件，填写 **HEAD_URL**。<br>
+    进入 `component/ToolKit` 目录下 `gradle.properties`文件，填写 **HEAD_URL**。<br>
     当前你可以使用 **`https://common.rtc.volcvideo.com/rtc_demo_special`** 作为测试服务器域名，仅提供跑通测试服务，无法保障正式需求。<br>
-        <img src="https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_15703882819ea292a62bd928120e3047.png" width="500px" >
+        <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/57bf4003-572d-42ac-bf6f-931ff053e842.png" width="500px" >
 
 3. **填写 APPID、APPKey、AccessKeyID、SecretAccessKey** <br>
-    进入 `component/joinrtsparams` 目录下 `gradle.properties`文件，填写 **APPID、APPKey、AccessKeyID、SecretAccessKey** <br>
-	<img src="https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_29968ec87f9fab7019baa2c3a5fa186c.png" width="500px" >
+    进入 `component/JoinRTSParamsKit` 目录下 `gradle.properties`文件，使用从火山引擎控制台获取的 **APPID、APPKey、AccessKeyID、SecretAccessKey 填写到该文件相应位置。<br>
+    <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/androidappid.png" width="500px" >
 
 
 ### 步骤 4：编译运行

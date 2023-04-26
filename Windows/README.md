@@ -31,19 +31,8 @@
 
 在火山引擎控制台-> [密钥管理](https://console.volcengine.com/iam/keymanage/)页面获取 **AccessKeyID 和 SecretAccessKey**
 
-### **步骤 3：获取 AccountID**
 
-在火山引擎控制台 -> 账号管理-> [基本信息](https://console.volcengine.com/user/basics/)页面获取账号 ID。
-
-<img src="https://lf3-volc-editor.volccdn.com/obj/volcfe/sop-public/upload_21cc40c27021949004368444ed913fdc" width="500px" >
-
-### **步骤 4：获取 VodSpace**
-
-在火山引擎控制台-> 视频管理 -> [空间管理](https://console.volcengine.com/vod/overview/)页面获取 VodSpace。若不存在空间，请新建空间。
-
-<img src="https://lf3-volc-editor.volccdn.com/obj/volcfe/sop-public/upload_50a216924f25749397ebb2664fa6d8b4" width="500px" >
-
-### **步骤 5：环境变量配置**
+### **步骤 3：环境变量配置**
 
 配置 QT 环境变量 `Qt32Path`、`Qt64Path` 。
 
@@ -51,43 +40,41 @@
 
 <img src="https://lf6-volc-editor.volccdn.com/obj/volcfe/sop-public/upload_ef1cd9300fcdeb883af54af22b1a7466" width="500px" >
 
-### **步骤 6：配置 Demo 工程文件**
+### **步骤 4：配置 Demo 工程文件**
 
 cmd 窗口下进入安装包代码下载的目录，执行 `cmake -G "Visual Studio 16" -Bbuild_win -A "Win32"`（32 位）或`cmake -G "Visual Studio 16" -Bbuild_win -A "x64"`（64位）命令，在 `build_win` 目录下生成工程。
 
 > 命令`cmake -G "Visual Studio 16" -Bbuild_win`中的 `16`为你使用 Visual Studio 版本对应的版本号。例如使用 Visual Studio 2019 时，该值为 `16`，使用 Visual Studio 2017 时，该值为 `15`。Visual Studio 各版本对应版本号可参考：[Visual Studio 内部版本号和发布日期](https://docs.microsoft.com/zh-cn/visualstudio/install/visual-studio-build-numbers-and-release-dates?view=vs-2019)。
 
-<img src="https://lf6-volc-editor.volccdn.com/obj/volcfe/sop-public/upload_55fb2b39303e36697b06e13ff39880ba" width="500px" >
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/img_v2_7f60d105-5e4f-4567-a62d-aa2734f599eg.jpg" width="500px">
 
-### 步骤 7：填写 **LoginUrl**
+### 步骤 5：填写 **URL**
 
-进入 `veRTC_Demo_Windows/feature/rts_params/rtc_build_config.h` 文件，填写 **URL**字段。
+进入 `RTCSolution/feature/joinRTS_params_kit/rtc_build_config.h` 文件，填写 **URL**字段。
 
 当前你可以使用 **`https://common.rtc.volcvideo.com/rtc_demo_special/login`** 作为测试服务器域名，仅提供跑通测试服务，无法保障正式需求。
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ubrbfuhw/20220919183633image.png" width="800px" >
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/20230425-150508.jpg" width="800px" >
 
-### **步骤 8：填写 APPID、APPKey、AccessKeyID、SecretAccessKey、AccountId 和 VodSpace**
+### **步骤 6：填写 APPID、APPKey、AccessKeyID 和 SecretAccessKey
+进入 `RTCSolution/feature/joinRTS_params_kit/rtc_build_config.h` 文件，填写 **APPID、APPKey、AccessKeyID 和 SecretAccessKey**
 
-进入`veRTC_Demo_Windows/feature/rts_params/rtc_build_config.h` 文件，填写 **APPID、APPKey、AccessKeyID、SecretAccessKey、AccountId 和 VodSpace**
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/20230425-150500.png" width="800px" >
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ubrbfuhw/20220919183858image.png" width="800px" >
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ubrbfuhw/20220919184214image.png" width="800px" >
+### **步骤 7：编译运行**
 
-### **步骤 9：编译运行**
+1. 进入 `RTCSolution/build_win` 目录，使用 Visual Studio 打开工程文件 `VeRTC.sln`。
 
-1. 进入 `veRTC_Demo_Windows/build_win` 目录，使用 Visual Studio 打开工程文件 `VeRTCDemo.sln`。
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/20230426-104415.jpg" width="500px" >
 
-<img src="https://lf3-volc-editor.volccdn.com/obj/volcfe/sop-public/upload_869af404514a9e5b4cc4bc5c84f756a5" width="500px" >
+2. 将 VeRTC 设为启动项目。
 
-2. 将 VeRTCDemo 设为启动项目。
-
-<img src="https://lf6-volc-editor.volccdn.com/obj/volcfe/sop-public/upload_6f2ad3a7b8ee399303da5a53be465f9e" width="500px" >
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/20230426-104415.jpg" width="500px" >
 
 3. 点击Visual Studio上方菜单栏【Debug】->【Start Debuging】开始编译并运行项目。
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ubrbfuhw/20220919181742image.png" width="800px" >
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/pkupenuhr/20230426-104746.jpg" width="800px" >
 
 
 运行开始界面如下：
