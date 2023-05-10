@@ -27,6 +27,10 @@ function RoomInfo() {
     };
   }, [time, t]);
 
+  useEffect(() => {
+    setTime(room.time);
+  }, [room.time]);
+
   return (
     <div className={styles.roomInfo}>
       <div className={styles.roomInfoContent}>

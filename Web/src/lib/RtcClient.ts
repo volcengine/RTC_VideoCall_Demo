@@ -17,6 +17,8 @@ import VERTC, {
   DeviceInfo,
   UserMessageEvent,
   TrackCaptureConfig,
+  AutoPlayFailedEvent,
+  PlayerEvent,
 } from '@volcengine/rtc';
 import { v4 as uuid } from 'uuid';
 import RTCBeautyExtension from '@volcengine/rtc/extension-beauty';
@@ -51,6 +53,8 @@ export interface IEventListener {
   handleUserMessageReceivedOutsideRoom: (e: { userId: string; message: any }) => void;
   handleUserMessageReceived: (e: { userId: string; message: any }) => void;
   handleRoomMessageReceived: (e: { userId: string; message: any }) => void;
+  handleAutoPlayFail: (e: AutoPlayFailedEvent) => void;
+  handlePlayerEvent: (e: PlayerEvent) => void;
 }
 
 interface EngineOptions {
@@ -111,7 +115,7 @@ export class RtcClient {
       beautyExtension.disable();
       this.beautyEnabled = true;
     } catch (error) {
-      console.log((error as any).message);
+      console.error((error as any).message);
       this.beautyEnabled = false;
     }
   };
@@ -124,6 +128,7 @@ export class RtcClient {
   sendServerMessage = async (eventname: string) => {
     return new Promise((resolve, reject) => {
       const requestId = uuid();
+
       const content = {
         app_id: this.config.appId,
         device_id: Utils.getDeviceId(),
@@ -177,6 +182,8 @@ export class RtcClient {
     handleUserMessageReceivedOutsideRoom,
     handleUserMessageReceived,
     handleRoomMessageReceived,
+    handleAutoPlayFail,
+    handlePlayerEvent,
   }: IEventListener) => {
     this.engine.on(VERTC.events.onError, handleError);
     this.engine.on(VERTC.events.onTrackEnded, handleTrackEnded);
@@ -185,26 +192,15 @@ export class RtcClient {
     this.engine.on(VERTC.events.onUserPublishStream, handleUserPublishStream);
     this.engine.on(VERTC.events.onUserUnpublishStream, handleUserUnpublishStream);
     this.engine.on(VERTC.events.onUserStartVideoCapture, handleUserStartVideoCapture);
-    this.engine.on(VERTC.events.onUserStopVideoCapture, (e) => {
-      console.log('VERTC.events.onUserStopVideoCapture', e);
-      handleUserStopVideoCapture(e);
-    });
+    this.engine.on(VERTC.events.onUserStopVideoCapture, handleUserStopVideoCapture);
     this.engine.on(VERTC.events.onUserPublishScreen, handleUserPublishScreen);
-    this.engine.on(VERTC.events.onUserUnpublishScreen, (e) => {
-      console.log('VERTC.events.onUserUnpublishScreen', e);
-      handleUserUnpublishScreen(e);
-    });
+    this.engine.on(VERTC.events.onUserUnpublishScreen, handleUserUnpublishScreen);
     this.engine.on(VERTC.events.onRemoteStreamStats, handleRemoteStreamStats);
     this.engine.on(VERTC.events.onLocalStreamStats, handleLocalStreamStats);
     this.engine.on(VERTC.events.onVideoDeviceStateChanged, handleVideoDeviceStateChanged);
     this.engine.on(VERTC.events.onAudioDeviceStateChanged, handleAudioDeviceStateChanged);
-
-    this.engine.on(VERTC.events.onLocalAudioPropertiesReport, (e) => {
-      handleLocalAudioPropertiesReport(e);
-    });
-    this.engine.on(VERTC.events.onRemoteAudioPropertiesReport, (e) => {
-      handleRemoteAudioPropertiesReport(e);
-    });
+    this.engine.on(VERTC.events.onLocalAudioPropertiesReport, handleLocalAudioPropertiesReport);
+    this.engine.on(VERTC.events.onRemoteAudioPropertiesReport, handleRemoteAudioPropertiesReport);
 
     this.engine.on(
       VERTC.events.onUserMessageReceivedOutsideRoom,
@@ -212,6 +208,8 @@ export class RtcClient {
     );
     this.engine.on(VERTC.events.onUserMessageReceived, handleUserMessageReceived);
     this.engine.on(VERTC.events.onRoomMessageReceived, handleRoomMessageReceived);
+    this.engine.on(VERTC.events.onAutoplayFailed, handleAutoPlayFail);
+    this.engine.on(VERTC.events.onPlayerEvent, handlePlayerEvent);
   };
 
   joinRoom = (token: string | null, username: string): Promise<void> => {
@@ -265,22 +263,20 @@ export class RtcClient {
     videoInputs: MediaDeviceInfo[];
     audioOutputs: MediaDeviceInfo[];
   }> {
-    const permissions = await this.checkPermission();
-    let audioInputs: MediaDeviceInfo[] = [];
+    // const permissions = await this.checkPermission();
+    const devices = await VERTC.enumerateDevices();
 
-    if (permissions.audio) {
-      audioInputs = await VERTC.enumerateAudioCaptureDevices();
-      audioInputs = audioInputs.filter((i) => i.deviceId);
-    }
+    const audioInputs: MediaDeviceInfo[] = devices.filter(
+      (i) => i.deviceId && i.kind === 'audioinput'
+    );
 
-    let videoInputs: MediaDeviceInfo[] = [];
-    if (permissions.video) {
-      videoInputs = await VERTC.enumerateVideoCaptureDevices();
-      videoInputs = videoInputs.filter((i) => i.deviceId);
-    }
+    const videoInputs: MediaDeviceInfo[] = devices.filter(
+      (i) => i.deviceId && i.kind === 'videoinput'
+    );
 
-    let audioOutputs = await VERTC.enumerateAudioPlaybackDevices();
-    audioOutputs = audioOutputs.filter((i) => i.deviceId);
+    const audioOutputs: MediaDeviceInfo[] = devices.filter(
+      (i) => i.deviceId && i.kind === 'audiooutput'
+    );
 
     this._audioCaptureDevice = audioInputs.filter((i) => i.deviceId)?.[0]?.deviceId;
     this._videoCaptureDevice = videoInputs.filter((i) => i.deviceId)?.[0]?.deviceId;
@@ -302,7 +298,8 @@ export class RtcClient {
   };
 
   startVideoCapture = async (camera?: string) => {
-    this.engine.setVideoCaptureConfig(this._captureConfig);
+    // 4.51 后废弃
+    // this.engine.setVideoCaptureConfig(this._captureConfig);
 
     this.engine.setVideoEncoderConfig(this._encoderConfig);
 
@@ -311,24 +308,21 @@ export class RtcClient {
     await this.engine.startVideoCapture(this._videoCaptureDevice);
   };
 
-  setVideoCaptureConfig = async (config: TrackCaptureConfig) => {
-    this._captureConfig = config;
-    this.engine.setVideoCaptureConfig(config);
-  };
+  // 4.51 后废弃
+  //   setVideoCaptureConfig = async (config: TrackCaptureConfig) => {
+  //     this._captureConfig = config;
+  //     this.engine.setVideoCaptureConfig(config);
+  //   };
 
   stopVideoCapture = async () => {
     await this.engine.stopVideoCapture();
   };
 
   publishStream = (mediaType: MediaType) => {
-    // console.log('publishStream', mediaType, this.config);
-
     this.engine.publishStream(mediaType);
   };
 
   unpublishStream = (mediaType: MediaType) => {
-    // console.log('unpublishStream', mediaType, this.config);
-
     this.engine.unpublishStream(mediaType);
   };
 

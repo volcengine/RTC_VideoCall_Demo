@@ -1,155 +1,53 @@
 import { Button, Form, Input, message as Message } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import { MediaType, MirrorType } from '@volcengine/rtc';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from '@/components/Header';
 import styles from './index.module.less';
 import MediaButton from '@/components/MediaButton';
 import { DeviceType } from '@/interface';
-import { localJoinRoom, setBeautyEnabled, updateRoomTime } from '@/store/slices/room';
-import {
-  MediaName,
-  medias,
-  setDevicePermissions,
-  updateMediaInputs,
-  updateSelectedDevice,
-} from '@/store/slices/device';
+import { MediaName, medias } from '@/store/slices/device';
 import { RootState } from '@/store';
 import { getIcon } from '@/components/MediaButton/utils';
-import RtcClient from '@/lib/RtcClient';
-import { useJoinRTMMutation } from '@/app/roomQuery';
-import { useFreeLogin } from './loginHook';
-import useRtcListeners from '@/lib/listenerHooks';
 import Utils from '@/utils/utils';
-import { BusinessId, isDev } from '@/config';
+import { useJoin, useGetDevicePermission } from '../../lib/useCommon';
+import Setting from '../View/BottomMenu/Setting';
 
 export interface FormProps {
   username: string;
   roomId: string;
-  userId: string;
   publishAudio: boolean;
   publishVideo: boolean;
 }
 
 export default function () {
   const localUser = useSelector((state: RootState) => state.room.localUser);
-  const devicePermissions = useSelector((state: RootState) => state.device.devicePermissions);
 
-  const [joinRTM] = useJoinRTMMutation();
+  const localRoomId = useSelector(
+    (state: RootState) => state.room.roomId?.replace('call_', '') || Utils.getUrlArgs()?.roomId
+  );
+
+  const devicePermissions = useSelector((state: RootState) => state.device.devicePermissions);
+  const permission = useGetDevicePermission();
+
   const { t } = useTranslation();
-  const { freeLoginApi } = useFreeLogin();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const listeners = useRtcListeners(isDev);
 
   const [form] = Form.useForm();
   const publishVideo = Form.useWatch('publishVideo', form) ?? true;
   const publishAudio = Form.useWatch('publishAudio', form) ?? true;
 
-  const [joining, setJoining] = useState(false);
+  const [joining, dispatchJoin] = useJoin();
 
   const handleStart = async (formValues: FormProps) => {
     if (joining) {
       return;
     }
-
-    setJoining(true);
-
-    try {
-      const freeLoginRes = await freeLoginApi(formValues.username);
-
-      if (!freeLoginRes.login_token) {
-        return;
-      }
-      const joinRtsRes = await joinRTM({
-        login_token: freeLoginRes.login_token,
-        device_id: Utils.getDeviceId(),
-      });
-
-      if (!('data' in joinRtsRes)) {
-        return;
-      }
-
-      const { response } = joinRtsRes.data;
-
-      await RtcClient.createEngine({
-        appId: response.app_id,
-        roomId: `call_${formValues.roomId}`,
-        rtsUid: freeLoginRes.user_id,
-        uid: freeLoginRes.user_id,
-        rtmToken: response.rtm_token,
-        serverUrl: response.server_url,
-        serverSignature: response.server_signature,
-        bid: response.bid,
-      });
-      RtcClient.setBusinessId(BusinessId);
-
-      dispatch(setBeautyEnabled(RtcClient.beautyEnabled));
-
-      await RtcClient.joinWithRTS();
-      RtcClient.addEventListeners(listeners);
-      const joinRes: any = await RtcClient.sendServerMessage('videocallJoinRoom');
-
-      if (joinRes.message_type !== 'return') {
-        return;
-      }
-
-      if (joinRes.code !== 200) {
-        if (joinRes.code === 406) {
-          Message.error('房间人数超过限制');
-        }
-        console.log('rts join error: ', joinRes);
-        setJoining(false);
-        return;
-      }
-
-      await RtcClient.joinRoom(joinRes.response.rtc_token, formValues.username);
-
-      const mediaDevices = await RtcClient.getDevices();
-
-      if (devicePermissions.video && formValues.publishVideo) {
-        await RtcClient.startVideoCapture();
-        RtcClient.setMirrorType(MirrorType.MIRROR_TYPE_RENDER);
-      }
-
-      if (devicePermissions.audio) {
-        await RtcClient.startAudioCapture();
-      }
-
-      if (!formValues.publishAudio) {
-        RtcClient.unpublishStream(MediaType.AUDIO);
-      }
-
-      dispatch(updateRoomTime({ time: joinRes.response.duration }));
-
-      dispatch(
-        localJoinRoom({
-          roomId: `call_${formValues.roomId}`,
-          user: {
-            username: formValues.username,
-            userId: freeLoginRes.user_id,
-            publishAudio: !!formValues.publishAudio,
-            publishVideo: !!formValues.publishVideo,
-          },
-        })
-      );
-
-      dispatch(
-        updateSelectedDevice({
-          selectedCamera: mediaDevices.videoInputs[0]?.deviceId,
-          selectedMicrophone: mediaDevices.audioInputs[0]?.deviceId,
-        })
-      );
-
-      dispatch(updateMediaInputs(mediaDevices));
-
-      navigate('/');
-    } catch (e) {
-      console.error(e);
-      setJoining(false);
-    }
+    dispatchJoin(
+      {
+        ...formValues,
+      },
+      false
+    );
   };
 
   const getMediaStatus = (media: DeviceType) => {
@@ -168,22 +66,16 @@ export default function () {
   };
 
   useEffect(() => {
-    const mount = async () => {
-      const permission = await RtcClient.checkPermission();
-      if (!permission.video) {
-        Message.error(t('noCameraPerm'));
-        form.setFieldValue('publishVideo', false);
-      }
-
-      if (!permission.audio) {
-        Message.error(t('noMicPerm'));
-        form.setFieldValue('publishAudio', false);
-      }
-
-      dispatch(setDevicePermissions(permission));
-    };
-    mount();
-  }, []);
+    if (!permission) return;
+    if (!permission.video) {
+      Message.error(t('noCameraPerm'));
+      form.setFieldValue('publishVideo', false);
+    }
+    if (!permission.audio) {
+      Message.error(t('noMicPerm'));
+      form.setFieldValue('publishAudio', false);
+    }
+  }, [permission]);
 
   return (
     <div className={styles.container}>
@@ -191,7 +83,11 @@ export default function () {
       <div className={styles['form-wrapper']}>
         <div className={styles.main}>
           <h1>{t('videocalls')}</h1>
-          <Form form={form} onFinish={handleStart} initialValues={localUser}>
+          <Form
+            form={form}
+            onFinish={handleStart}
+            initialValues={{ ...localUser, roomId: localRoomId }}
+          >
             <Form.Item
               name="roomId"
               validateTrigger="onChange"
@@ -264,6 +160,9 @@ export default function () {
                   </Form.Item>
                 );
               })}
+              <Form.Item noStyle>
+                <Setting btnClassName=" " iconClassName={styles.mediaIcon} />
+              </Form.Item>
             </div>
 
             <Form.Item

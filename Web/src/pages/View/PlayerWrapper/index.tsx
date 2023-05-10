@@ -64,7 +64,14 @@ function PlayerWrapper() {
   }, [room.localUser, room.shareUser]);
 
   if (!room.roomId) {
-    return null;
+    return (
+      <div
+        className={styles.playerWrapper}
+        style={{
+          height: isLocalUserShared ? '100%' : 'calc(100% - 50px - 64px)',
+        }}
+      />
+    );
   }
 
   return (

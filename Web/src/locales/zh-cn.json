@@ -42,5 +42,7 @@
   "Beautify": "美颜",
   "White": "美白",
   "Smooth": "磨皮",
-  "Sharpen": "锐化"
+  "Sharpen": "锐化",
+  "limitUserInRoom": "房间人数超过限制",
+  "notSupported": "当前浏览器不支持"
 }

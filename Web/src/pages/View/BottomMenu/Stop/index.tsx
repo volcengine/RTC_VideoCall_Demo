@@ -1,37 +1,33 @@
 import { Button, Modal } from 'antd';
 import { useState } from 'react';
 import { ExclamationOutlined } from '@ant-design/icons';
+
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import RtcClient, { beautyExtension } from '@/lib/RtcClient';
 import MediaButton from '@/components/MediaButton';
 import { getIcon } from '@/components/MediaButton/utils';
 import styles from './index.module.less';
-import { localLeaveRoom, setBeauty } from '@/store/slices/room';
+import { RootState } from '@/store';
+import { localLeaveRoom } from '@/store/slices/room';
 import { resetConfig } from '@/store/slices/stream';
 
 function Stop() {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const room = useSelector((state: RootState) => state.room);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleStop = async () => {
-    RtcClient.sendServerMessage('videocallLeaveRoom');
-    dispatch(setBeauty(false));
-    if (RtcClient.beautyEnabled) {
-      beautyExtension.disable();
-    }
-
-    await RtcClient.stopAudioCapture();
-    await RtcClient.stopVideoCapture();
-    await RtcClient.stopScreenCapture();
-    await RtcClient.leaveRoom();
-
     dispatch(localLeaveRoom());
     dispatch(resetConfig());
-    navigate('/login');
+    try {
+      navigate(`/login?roomId=${room.roomId?.replace('call_', '')}`);
+    } catch (error) {
+      console.error('error', error);
+    }
   };
 
   return (

@@ -32,6 +32,7 @@ export interface RoomState {
   localUser: LocalUser;
   remoteUsers: IUser[];
   shareUser?: string;
+  autoPlayFailUser: string[];
 }
 const initialState: RoomState = {
   beautyOn: false,
@@ -42,6 +43,7 @@ const initialState: RoomState = {
     publishAudio: true,
     publishVideo: true,
   },
+  autoPlayFailUser: [],
 };
 
 export const roomSlice = createSlice({
@@ -127,6 +129,22 @@ export const roomSlice = createSlice({
     setBeautyEnabled: (state, action: PayloadAction<boolean>) => {
       state.beautyEnabled = action.payload;
     },
+
+    addAutoPlayFail: (state, { payload }) => {
+      const autoPlayFailUser = state.autoPlayFailUser;
+      const index = autoPlayFailUser.findIndex((item) => item === payload.userId);
+      if (index === -1) {
+        state.autoPlayFailUser.push(payload.userId);
+      }
+    },
+    removeAutoPlayFail: (state, { payload }) => {
+      const autoPlayFailUser = state.autoPlayFailUser;
+      const _autoPlayFailUser = autoPlayFailUser.filter((item) => item !== payload.userId);
+      state.autoPlayFailUser = _autoPlayFailUser;
+    },
+    clearAutoPlayFail: (state) => {
+      state.autoPlayFailUser = [];
+    },
   },
 });
 
@@ -142,6 +160,9 @@ export const {
   updateRoomTime,
   setBeauty,
   setBeautyEnabled,
+  addAutoPlayFail,
+  removeAutoPlayFail,
+  clearAutoPlayFail,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;

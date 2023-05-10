@@ -9,11 +9,14 @@ import VERTC, {
   StreamRemoveReason,
   StreamIndex,
   DeviceInfo,
+  AutoPlayFailedEvent,
+  PlayerEvent,
 } from '@volcengine/rtc';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { message as Message } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useRef } from 'react';
 
 import {
   IUser,
@@ -25,16 +28,20 @@ import {
   stopShare,
   updateLocalUser,
   updateRemoteUser,
+  addAutoPlayFail,
+  removeAutoPlayFail,
 } from '@/store/slices/room';
 import RtcClient, { beautyExtension, IEventListener } from './RtcClient';
 
 import { setMicrophoneList, setCameraList, updateSelectedDevice } from '@/store/slices/device';
 import { resetConfig } from '@/store/slices/stream';
+import Utils from '@/utils/utils';
 
 const useRtcListeners = (isDev: boolean): IEventListener => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const playStatus = useRef<{ [key: string]: { audio: boolean; video: boolean } }>({});
 
   const handleUserJoin = (e: onUserJoinedEvent) => {
     const extraInfo = JSON.parse(e.userInfo.extraInfo || '{}');
@@ -59,28 +66,26 @@ const useRtcListeners = (isDev: boolean): IEventListener => {
 
   const handleUserLeave = (e: onUserLeaveEvent) => {
     dispatch(remoteUserLeave(e.userInfo));
+    dispatch(removeAutoPlayFail(e.userInfo));
   };
 
   const handleUserStartVideoCapture = (e: { userId: string }) => {
     const { userId } = e;
     const payload: IUser = { userId };
     payload.publishVideo = true;
-    console.log('handleUserStartVideoCapture', payload);
     dispatch(updateRemoteUser(payload));
   };
+
   const handleUserStopVideoCapture = (e: { userId: string }) => {
     const { userId } = e;
     const payload: IUser = { userId };
     payload.publishVideo = false;
-    console.log('handleUserStopVideoCapture', payload);
 
     dispatch(updateRemoteUser(payload));
   };
 
   const handleUserPublishStream = (e: { userId: string; mediaType: MediaType }) => {
     const { userId, mediaType } = e;
-
-    console.log('handleUserPublishStream', e);
 
     const payload: IUser = { userId };
     if (mediaType === MediaType.AUDIO) {
@@ -198,9 +203,7 @@ const useRtcListeners = (isDev: boolean): IEventListener => {
   };
 
   const handleVideoDeviceStateChanged = async (device: DeviceInfo) => {
-    console.log('device hook VideoDeviceStateChanged', device);
     const devices = await RtcClient.getDevices();
-    console.log('new devices', devices);
 
     let deviceId = device.mediaDeviceInfo?.deviceId;
     if (device.deviceState === 'inactive') {
@@ -215,10 +218,9 @@ const useRtcListeners = (isDev: boolean): IEventListener => {
       })
     );
   };
+
   const handleAudioDeviceStateChanged = async (device: DeviceInfo) => {
-    console.log('device hook AudioDeviceStateChanged', device);
     const devices = await RtcClient.getDevices();
-    console.log('new devices', devices);
 
     if (device.mediaDeviceInfo.kind === 'audioinput') {
       let deviceId = device.mediaDeviceInfo.deviceId;
@@ -266,6 +268,7 @@ const useRtcListeners = (isDev: boolean): IEventListener => {
         await RtcClient.stopVideoCapture();
         await RtcClient.stopScreenCapture();
         RtcClient.leaveRoom();
+        Utils.removeLoginInfo();
         dispatch(localLeaveRoom());
         dispatch(resetConfig());
         navigate('/login');
@@ -274,7 +277,6 @@ const useRtcListeners = (isDev: boolean): IEventListener => {
   };
 
   const handleUserMessageReceivedOutsideRoom = (e: { userId: string; message: any }) => {
-    // console.log('handleUserMessageReceivedOutsideRoom', e);
     handleOnCloseRoom(e);
   };
 
@@ -283,6 +285,57 @@ const useRtcListeners = (isDev: boolean): IEventListener => {
   };
   const handleRoomMessageReceived = (e: { userId: string; message: any }) => {
     handleOnCloseRoom(e);
+  };
+
+  const handleAutoPlayFail = (event: AutoPlayFailedEvent) => {
+    const { userId, kind } = event;
+    let playUser = playStatus.current?.[userId] || {};
+    playUser = { ...playUser, [kind]: false };
+    playStatus.current[userId] = playUser;
+
+    dispatch(
+      addAutoPlayFail({
+        userId,
+      })
+    );
+  };
+
+  const addFailUser = (userId: string) => {
+    dispatch(addAutoPlayFail({ userId }));
+  };
+
+  const playerFail = (params: { type: 'audio' | 'video'; userId: string }) => {
+    const { type, userId } = params;
+    let playUser = playStatus.current?.[userId] || {};
+
+    playUser = { ...playUser, [type]: false };
+
+    const { audio, video } = playUser;
+
+    if (audio === false || video === false) {
+      addFailUser(userId);
+    }
+
+    return playUser;
+  };
+
+  const handlePlayerEvent = (event: PlayerEvent) => {
+    const { userId, rawEvent, type } = event;
+    let playUser = playStatus.current?.[userId] || {};
+
+    if (!playStatus.current) return;
+
+    if (rawEvent.type === 'playing') {
+      playUser = { ...playUser, [type]: true };
+      const { audio, video } = playUser;
+      if (audio !== false && video !== false) {
+        dispatch(removeAutoPlayFail({ userId }));
+      }
+    } else if (rawEvent.type === 'pause') {
+      playUser = playerFail({ type, userId });
+    }
+
+    playStatus.current[userId] = playUser;
   };
 
   return {
@@ -305,6 +358,8 @@ const useRtcListeners = (isDev: boolean): IEventListener => {
     handleUserMessageReceivedOutsideRoom,
     handleUserMessageReceived,
     handleRoomMessageReceived,
+    handleAutoPlayFail,
+    handlePlayerEvent,
   };
 };
 

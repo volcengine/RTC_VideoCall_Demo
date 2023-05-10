@@ -1,4 +1,4 @@
-import { StreamIndex } from '@volcengine/rtc';
+// import { StreamIndex } from '@volcengine/rtc';
 import { Form, Modal, Select, Switch } from 'antd';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,16 +6,18 @@ import { useTranslation } from 'react-i18next';
 import MediaButton from '@/components/MediaButton';
 import { getIcon } from '@/components/MediaButton/utils';
 import { AudioProfile, RESOLUTIOIN_LIST } from '@/config';
-import RtcClient from '@/lib/RtcClient';
+// import RtcClient from '@/lib/RtcClient';
 import { RootState } from '@/store';
 import { updateAllStreamConfig } from '@/store/slices/stream';
 import styles from './index.module.less';
 
 interface SettingProps {
   shared?: boolean;
+  btnClassName?: string;
+  iconClassName?: string;
 }
 function Setting(props: SettingProps) {
-  const { shared } = props;
+  const { shared, btnClassName, iconClassName } = props;
   const [modalVisible, setModalVisible] = useState(false);
   const stream = useSelector((state: RootState) => state.stream);
   const dispatch = useDispatch();
@@ -29,21 +31,21 @@ function Setting(props: SettingProps) {
       mirror: +formValues.mirror,
     };
 
-    if (stream.mirror !== newStreamConfig.mirror) {
-      RtcClient.setMirrorType(newStreamConfig.mirror);
-    }
+    // if (stream.mirror !== newStreamConfig.mirror) {
+    //   RtcClient.setMirrorType(newStreamConfig.mirror);
+    // }
 
-    if (stream.audioProfile !== newStreamConfig.audioProfile) {
-      RtcClient.setAudioProfile(newStreamConfig.audioProfile);
-    }
+    // if (stream.audioProfile !== newStreamConfig.audioProfile) {
+    //   RtcClient.setAudioProfile(newStreamConfig.audioProfile);
+    // }
 
-    if (stream.videoEncodeConfig !== newStreamConfig.videoEncodeConfig) {
-      const encodeConfig = RESOLUTIOIN_LIST.find(
-        (resolution) => resolution.text === newStreamConfig.videoEncodeConfig
-      );
-      RtcClient.setVideoCaptureConfig(encodeConfig!.val);
-      RtcClient.setVideoEncoderConfig(StreamIndex.STREAM_INDEX_MAIN, encodeConfig!.val);
-    }
+    // if (stream.videoEncodeConfig !== newStreamConfig.videoEncodeConfig) {
+    //   const encodeConfig = RESOLUTIOIN_LIST.find(
+    //     (resolution) => resolution.text === newStreamConfig.videoEncodeConfig
+    //   );
+    //   RtcClient.setVideoCaptureConfig(encodeConfig!.val);
+    //   RtcClient.setVideoEncoderConfig(StreamIndex.STREAM_INDEX_MAIN, encodeConfig!.val);
+    // }
 
     dispatch(updateAllStreamConfig(newStreamConfig));
 
@@ -58,8 +60,8 @@ function Setting(props: SettingProps) {
   return (
     <>
       <MediaButton
-        className={shared ? styles.shareMenuButton : styles.menuButton}
-        iconClassName={styles.menuButtonIcon}
+        className={btnClassName}
+        iconClassName={iconClassName}
         text={shared ? undefined : t('Settings')}
         icon={getIcon('setting')}
         onClick={() => {

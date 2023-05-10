@@ -84,7 +84,7 @@ function BeautifyButton(props: BeautifyButtonProps) {
         text={shared ? undefined : t('Beautify')}
         icon={beautyOn ? BeautifyIcon : BeautifyOffIcon}
         disabled={!beautyEnabled}
-        disableMsg="当前浏览器不支持"
+        disableMsg={t('notSupported')}
       />
       <div className={styles.ArrowIcon} onClick={handleShowOptions}>
         <img src={ArrowIcon} alt="arrow" />
