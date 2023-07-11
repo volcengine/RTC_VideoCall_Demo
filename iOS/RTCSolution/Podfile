@@ -2,7 +2,7 @@ source 'https://cdn.cocoapods.org/'
 source 'https://github.com/volcengine/volcengine-specs.git'
 
 # RTC SDK
-pod 'VolcEngineRTC', '3.50.301'
+pod 'VolcEngineRTC', '3.52.109'
 
 target 'RTCSolution' do
   platform :ios, '12.0'
@@ -24,7 +24,7 @@ target 'RTCSolution' do
   
   # 音视频通话
   pod 'VideoCallDemo', :path => '../RTCSolution/APP/VideoCallDemo'
-    
+  
 end
 
 post_install do |installer|

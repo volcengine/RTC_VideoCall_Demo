@@ -20,11 +20,17 @@ class VideoCallData;
 namespace videocall {
     static constexpr int kMaxShowWidgetNum = 12;
 
-/**
+/** {zh}
  * 场景页面管理类
  * 负责不同UI界面之间的跳转和公用数据的更新
  * 处理RTC侧回调来的业务逻辑
  */
+
+/** {en}
+* Scene page management class
+* Responsible for jumping between different UI interfaces and updating public data
+* Handle the business logic from the RTC side callback
+*/
 class VideoCallManager : public QObject {
     Q_OBJECT
 

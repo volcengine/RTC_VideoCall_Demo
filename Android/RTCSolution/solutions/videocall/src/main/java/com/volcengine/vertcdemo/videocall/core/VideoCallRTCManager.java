@@ -771,6 +771,9 @@ public class VideoCallRTCManager {
      */
     public void switchCamera(boolean isFrontCamera) {
         Log.d(TAG, String.format("switchCamera: %b", isFrontCamera));
+        if (!mIsCameraOn) {
+            return;
+        }
         mIsFrontCamera = isFrontCamera;
         if (mRTCVideo != null) {
             // 切换视频内部采集时使用的前置/后置摄像头

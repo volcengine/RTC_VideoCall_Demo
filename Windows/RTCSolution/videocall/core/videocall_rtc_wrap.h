@@ -5,9 +5,13 @@
 #include "core/rtc_engine_wrap.h"
 #include "videocall/core/videocall_model.h"
 
-/**
+/** {zh}
  * 本场景内的需要用到的RTC接口和回调的封装类
  */
+
+/** {en}
+* The RTC interface and callback encapsulation class that need to be used in this scene
+*/
 class VideoCallRtcEngineWrap : public QObject {
 	Q_OBJECT
 

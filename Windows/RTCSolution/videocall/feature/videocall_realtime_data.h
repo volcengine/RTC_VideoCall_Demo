@@ -9,8 +9,12 @@ class realTimeDataUnit;
 namespace Ui {
     class VideoCallData;
 }
-/**
+/** {zh}
  * 通话数据页面,用于统计通话中的每个用户的音频或视频数据
+ */
+ 
+ /** {en}
+ * Call data page, used to count the audio or video data of each user in the call
  */
 
 class VideoCallData : public QDialog {

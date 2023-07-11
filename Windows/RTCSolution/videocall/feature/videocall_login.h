@@ -1,8 +1,13 @@
 #pragma once
 #include "ui_videocall_login.h"
-/**
+/** {zh}
  * 音视频通话登录页面，可输入用户名，房间号，控制音频，视频，然后进入通话
  */
+
+/** {en}
+* Video call login page, you can enter the user name, room number, 
+* control audio, control video, and then enter the call
+*/
 class VideoCallLoginWidget : public QWidget {
     Q_OBJECT
 public:

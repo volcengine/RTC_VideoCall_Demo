@@ -28,7 +28,7 @@ RtcEngineWrap::RtcEngineWrap()
 
 int RtcEngineWrap::startPlaybackDeviceTest(const std::string& str) {
   CHECK_POINTER(audio_device_manager_, -API_CALL_ERROR);
-  return audio_device_manager_->startAudioPlaybackDeviceTest(str.c_str(), 1000);
+  return audio_device_manager_->startAudioPlaybackDeviceTest(str.c_str(), 200);
 }
 
 int RtcEngineWrap::stopPlaybackDeviceTest() {
@@ -623,7 +623,10 @@ bool RtcEngineWrap::audioReocrdDeviceTest() {
 int RtcEngineWrap::feedBack(bytertc::ProblemFeedbackOption* type, 
         int count, const std::string& problem_desc) {
     CHECK_POINTER(video_engine_, -API_CALL_ERROR);
-    video_engine_->feedback(type, count, problem_desc.c_str());
+    bytertc::ProblemFeedbackInfo info;
+    info.problem_desc = problem_desc.c_str();
+    info.room_info_count = count;
+    video_engine_->feedback(*type, &info);
     return 0;
 }
 
@@ -951,6 +954,12 @@ void RtcEngineWrap::onVideoDeviceStateChanged(const char* device_id,
         emit sigOnVideoDeviceStateChanged(device_id, device_type, device_state,
                                     device_error);
     });
+}
+
+void RtcEngineWrap::onAudioPlaybackDeviceTestVolume(int volume)
+{
+    ForwardEvent::PostEvent(
+        this, [=] { emit sigOnAudioPlaybackDeviceTestVolume(volume); });
 }
 
 void RtcEngineWrap::onLocalVideoStateChanged(

@@ -7,24 +7,32 @@
 namespace vrd {
 
 struct VerifySms {
-  // 用户ID
+  // {zh} 用户ID
+  // {en} user ID
   std::string user_id;
-  // 用户名
+  // {zh} 用户名
+  // {en} user name
   std::string user_name;
-  // 登录鉴权字段
+  // {zh} 登录鉴权字段
+  // {en} login authentication field
   std::string login_token;
-  // 创建时间点
+  // {zh} 创建时间点
+  // {en} creation time point
   int64_t create_at = 0;
 };
 
 struct RTSInfo {
-	// 每个应用的唯一标识符
+	// {zh} 每个应用的唯一标识符
+	// {en} Unique identifier for each application
 	std::string app_id;
-	// appID鉴权字段
+	// {zh} appID鉴权字段
+	// {en} appID authentication field
 	std::string rtm_token;
-	// 服务端URL
+	// {zh} 服务端URL
+	// {en} server URL
 	std::string server_url;
-	// 服务端鉴权签名
+	// {zh} 服务端鉴权签名
+	// {en} Server authentication signature
 	std::string server_signature;
 };
 

@@ -18,9 +18,14 @@
 #include "bytertc_video_event_handler.h"
 #include "bytertc_room_event_handler.h"
 
-/**
+/** {zh}
  * Qt自定义事件类，用于将工作线程的数据转发给主线程处理
  */
+
+/** {en}
+* Qt custom event class, used to forward the data of the worker thread 
+*  to the main thread for processing
+*/
 class ForwardEvent : public QEvent {
 public:
     ForwardEvent(std::function<void(void)>&& task)
@@ -106,10 +111,15 @@ struct RemoteStreamKeyWrap {
     bytertc::StreamIndex stream_index;
 };
 
-/**
+/** {zh}
  * ByteRTC接口封装以及回调接收类,适用于全场景
  * 注意,相关接口和回调的具体含义可直接参看RTC原生接口的释义
  */
+
+ /** {en}
+  * ByteRTC interface wrapper and callback receiving class, applicable to all scenarios
+  * Note that for the specific meaning of related interfaces and callbacks, please refer to the definition of RTC native interface directly
+  */
 class RtcEngineWrap : public QObject, public bytertc::IRTCVideoEventHandler
                                     , public bytertc::IRTCRoomEventHandler {
     Q_OBJECT
@@ -258,6 +268,9 @@ signals:
                                     bytertc::LocalVideoStreamError error);
     void sigOnLocalAudioStateChanged(bytertc::LocalAudioStreamState state,
                                     bytertc::LocalAudioStreamError error);
+
+    void sigOnAudioPlaybackDeviceTestVolume(int volume);
+
     void sigOnSysStats(bytertc::SysStats stats);
     void sigOnNetworkTypeChanged(bytertc::NetworkType type);
 
@@ -308,6 +321,8 @@ public:
         bytertc::MediaDeviceState device_state, bytertc::MediaDeviceError device_error) override;
     void onVideoDeviceStateChanged(const char* device_id, bytertc::RTCVideoDeviceType device_type,
         bytertc::MediaDeviceState device_state, bytertc::MediaDeviceError device_error) override;
+
+    void onAudioPlaybackDeviceTestVolume(int volume) override;
 
     void onLocalVideoStateChanged(bytertc::StreamIndex index,
                                 bytertc::LocalVideoStreamState state,

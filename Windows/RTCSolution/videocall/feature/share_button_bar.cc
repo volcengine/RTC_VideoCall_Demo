@@ -159,7 +159,8 @@ void ShareButtonBar::initConnections() {
 }
 
 void ShareButtonBar::initCameraOption() {
-    // 摄像头选项按钮
+    // {zh} 摄像头选项按钮
+    // {en} camera option button
     auto camera_option_btn = new QPushButton(ui->btn_camera);
     camera_option_btn->setFixedSize(QSize(12, 12));
     camera_option_btn->setIconSize(QSize(8, 8));
@@ -218,7 +219,8 @@ void ShareButtonBar::initCameraOption() {
 }
 
 void ShareButtonBar::initMicOption() {
-    // 麦克风选项按钮
+    // {zh} 麦克风选项按钮
+    // {en} mic option button
     auto audio_option_btn = new QPushButton(ui->btn_mic);
     audio_option_btn->setFixedSize(QSize(12, 12));
     audio_option_btn->setIconSize(QSize(8, 8));
@@ -278,7 +280,8 @@ void ShareButtonBar::initMicOption() {
 }
 
 void ShareButtonBar::initShareOption() {
-    // 共享内容选项按钮
+    // {zh} 共享内容选项按钮
+    // {en} share option button
     auto share_option_btn = new QPushButton(ui->btn_share);
     share_option_btn->setFixedSize(QSize(12, 12));
     share_option_btn->setIconSize(QSize(8, 8));

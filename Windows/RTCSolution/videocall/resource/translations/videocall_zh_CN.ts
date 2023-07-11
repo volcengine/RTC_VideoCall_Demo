@@ -124,11 +124,11 @@
 	</message>
 	<message>
 		<source>minutes_meeting</source>
-		<translation>本次会议时已超过15分钟</translation>
+		<translation>本次会议时已超过20分钟</translation>
 	</message>
 	<message>
 		<source>minutes_meeting_title</source>
-		<translation>本产品仅用于功能体验，单次会议时长不超过15分钟</translation>
+		<translation>本产品仅用于功能体验，单次会议时长不超过20分钟</translation>
 	</message>
 	<message>
 		<source>speaker</source>

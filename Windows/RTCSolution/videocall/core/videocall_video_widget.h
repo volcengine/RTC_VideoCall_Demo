@@ -3,11 +3,17 @@
 #include <QStackedWidget>
 #include <QWidget>
 
-/**
+/** {zh}
  * 音视频通话视频渲染块，包括有视频和没有视频两种
  * 1, 渲染视频或者头像
  * 2, 设置用户名标签和远端设备状态标签
  */
+
+/** {en}
+* Audio and video call video rendering block, including video and no video
+* 1, Render video or avatar
+* 2, Set username label and remote device status label
+*/
 class VideoCallVideoWidget : public QWidget {
 public:
     VideoCallVideoWidget(QWidget* parent = nullptr);

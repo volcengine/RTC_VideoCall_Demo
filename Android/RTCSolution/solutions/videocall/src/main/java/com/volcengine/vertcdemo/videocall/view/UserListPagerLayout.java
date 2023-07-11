@@ -242,26 +242,27 @@ public class UserListPagerLayout extends FrameLayout {
             } else {
                 if (holder instanceof UserListViewHolder) {
                     UserListViewHolder userListViewHolder = (UserListViewHolder) holder;
+                    VideoCallUserInfo user = mUserInfoList.get(position);
                     if (payloads.contains(IS_SPEAKING)) {
-                        userListViewHolder.updateSpeakingStatus(mUserInfoList.get(position).userId, true);
+                        userListViewHolder.updateSpeakingStatus(user.userId, true);
                     } else if (payloads.contains(IS_NOT_SPEAKING)) {
-                        userListViewHolder.updateSpeakingStatus(mUserInfoList.get(position).userId, false);
+                        userListViewHolder.updateSpeakingStatus(user.userId, false);
                     }
 
                     if (payloads.contains(MIC_ON)) {
-                        userListViewHolder.updateMicStatus(mUserInfoList.get(position).userId, true);
+                        userListViewHolder.updateMicStatus(user.userId, true);
                     } else if (payloads.contains(MIC_OFF)) {
-                        userListViewHolder.updateMicStatus(mUserInfoList.get(position).userId, false);
+                        userListViewHolder.updateMicStatus(user.userId, false);
                     }
 
                     if (payloads.contains(CAMERA_ON)) {
-                        userListViewHolder.updateCameraStatus(mUserInfoList.get(position).userId, false, true);
+                        userListViewHolder.updateCameraStatus(user.userId, false, user.isCameraOn);
                     } else if (payloads.contains(CAMERA_OFF)) {
-                        userListViewHolder.updateCameraStatus(mUserInfoList.get(position).userId, false, false);
+                        userListViewHolder.updateCameraStatus(user.userId, false, user.isCameraOn);
                     }
 
                     if (payloads.contains(SCREEN_SHARE_ON)) {
-                        userListViewHolder.updateCameraStatus(mUserInfoList.get(position).userId, true, true);
+                        userListViewHolder.updateCameraStatus(user.userId, true, true);
                     }
                 }
             }

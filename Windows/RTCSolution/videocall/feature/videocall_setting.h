@@ -7,9 +7,13 @@ namespace Ui {
     class VideoCallSetting;
 }
 
-/**
+/** {zh}
  * 音视频通话设置页面，用于设置分辨率，音频质量，是否镜像
  */
+
+/** {en}
+* Audio and video call setting page, used to set resolution, audio quality, mirroring or not
+*/
 class VideoCallSetting : public QDialog {
     Q_OBJECT
 

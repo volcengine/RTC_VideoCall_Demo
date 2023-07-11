@@ -38,9 +38,11 @@ void SessionBase::connectRTS(CSTRING_REF_PARAM scenesName, std::function<void(vo
     vrd::getJoinRTSParams(scenesName, token_, [this, callback](int code) {
     if (code == 200) {
 		auto rts_info = vrd::DataMgr::instance().rts_info();
-		// 创建引擎
+		// {zh} 创建引擎
+		// {en} create RTC Engine
 		RtcEngineWrap::instance().createEngine(rts_info.app_id);
-		// 设置业务标识参数
+		// {zh} 设置业务标识参数
+		// {en} Set business identification parameters
 		RtcEngineWrap::instance().getRtcEngine()->setBusinessId(vrd::DataMgr::instance().business_Id().c_str());
 		_loginRTS(rts_info.rtm_token, [this, rts_info, callback](int code) {
             if (code == bytertc::LoginErrorCode::kLoginErrorCodeSuccess) {
@@ -95,7 +97,8 @@ void SessionBase::initConnections() {
 
     QObject::connect(net_live_timer_, &QTimer::timeout, this, [this]() {
         auto& httpInstance = Http::instance();
-        // 仅用于检测网络连接状态
+        // {zh} 仅用于检测网络连接状态
+		// {en} only check network connection
         auto reply = httpInstance.get(QUrl(QString::fromStdString(vrd::URL)));
         QObject::connect(reply, &HttpReply::finished, this, [this](auto& reply) {
             auto replyCode = reply.statusCode();
@@ -199,8 +202,12 @@ void SessionBase::onServerMessageSendResult(int64_t msgid, int error, const byte
 	callback_with_messageId_.erase(msgid);
 }
 
-/**
+/** {zh}
 * 收到RTS业务请求回调消息或通知消息，并解析
+*/
+
+/** {en}
+* Received RTS business request callback message or notification message, and parsed
 */
 void SessionBase::onMessageReceived(const std::string& uid, const std::string& message) {
 	auto messageByteArray = QByteArray(message.data(), static_cast<int>(message.size()));

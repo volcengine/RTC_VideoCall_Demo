@@ -6,7 +6,8 @@ DataMgr& DataMgr::instance() {
     return mgr;
 }
 
-// 场景数据初始化
+// {zh} 场景数据初始化
+// {en} Scene data initialization
 void DataMgr::init() {
     instance().mute_video_ = false;
     instance().mute_audio_ = false;

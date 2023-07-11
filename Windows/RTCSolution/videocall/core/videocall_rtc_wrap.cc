@@ -8,9 +8,13 @@
 #include "core/util_tip.h"
 #include "videocall/core/data_mgr.h"
 
-/**
+/** {zh}
  * 单例对象，便于其他类代码中访问对应的接口
  */
+
+/** {en}
+* Singleton object, which is convenient for accessing the corresponding interface in other class codes
+*/
 VideoCallRtcEngineWrap& VideoCallRtcEngineWrap::instance() {
   static VideoCallRtcEngineWrap engine;
   return engine;
@@ -61,24 +65,6 @@ int VideoCallRtcEngineWrap::init() {
         &instance(), [=](std::string uid, bytertc::MediaStreamType type) {
 			emit instance().sigOnShareScreenStatusChanged(uid, false);
         });
-
-	QObject::connect(
-		&RtcEngineWrap::instance(), &RtcEngineWrap::sigOnLocalAudioStateChanged,
-		&engine_wrap,
-		[=](bytertc::LocalAudioStreamState state,
-			bytertc::LocalAudioStreamError error) {
-				if (state == bytertc::kLocalAudioStreamStateFailed &&
-					(error == bytertc::kLocalAudioStreamErrorDeviceNoPermission ||
-						bytertc::kLocalAudioStreamErrorRecordFailure)) {
-					vrd::util::showToastInfo(QObject::tr("no_microphone_permission").toStdString());
-
-					if (!videocall::DataMgr::instance().mute_audio()) {
-						videocall::DataMgr::instance().setMuteAudio(true);
-						VideoCallRtcEngineWrap::muteLocalAudio(true);
-						emit instance().sigUpdateAudio();
-					}
-				}
-		});
 
 	QObject::connect(
 		&RtcEngineWrap::instance(), &RtcEngineWrap::sigOnLocalVideoStateChanged,
@@ -401,12 +387,14 @@ void VideoCallRtcEngineWrap::onVideoStateChanged(std::string device_id,
 	}
 
 	switch (device_state) {
-		// 插入一个新的设备
+		// {zh} 插入一个新的设备
+		// {en} Insert a new device
 		case bytertc::kMediaDeviceStateAdded:
 			vrd::util::showToastInfo(QObject::tr("new_camera_plugin").toStdString());
 			emit instance().sigUpdateVideoDevices();
 			break;
-		// 拔出设备
+		// {zh} 拔出设备
+		// {en} Pull out the device
 		case bytertc::kMediaDeviceStateRemoved:
 			vrd::util::showToastInfo(QObject::tr("camera_unplugged").toStdString());
 			emit instance().sigUpdateVideoDevices();
@@ -419,25 +407,27 @@ void VideoCallRtcEngineWrap::onVideoStateChanged(std::string device_id,
 
 void VideoCallRtcEngineWrap::onAudioStateChanged(std::string device_id,
     bytertc::MediaDeviceState device_state, bytertc::MediaDeviceError error) {
-	std::vector<RtcDevice> devices;
-	VideoCallRtcEngineWrap::getAudioInputDevices(devices);
-	if ((devices.empty() || error == bytertc::kMediaDeviceErrorDeviceNoPermission)
-		&& !videocall::DataMgr::instance().mute_audio()) {
-		videocall::DataMgr::instance().setMuteAudio(true);
-		VideoCallRtcEngineWrap::muteLocalAudio(true);
-		emit instance().sigUpdateAudio();
-	} else {
-	VideoCallRtcEngineWrap::muteLocalAudio(
-		videocall::DataMgr::instance().mute_audio());
-	}
+    std::vector<RtcDevice> devices;
+    VideoCallRtcEngineWrap::getAudioInputDevices(devices);
+    if ((devices.empty()) && !videocall::DataMgr::instance().mute_audio()) {
+        videocall::DataMgr::instance().setMuteAudio(true);
+        VideoCallRtcEngineWrap::muteLocalAudio(true);
+        emit instance().sigUpdateAudio();
+    }
+    else {
+        VideoCallRtcEngineWrap::muteLocalAudio(
+            videocall::DataMgr::instance().mute_audio());
+    }
 
 	switch (device_state) {
-	// 插入一个新的设备
+	// {zh} 插入一个新的设备
+	// {en} Insert a new device
 	case bytertc::kMediaDeviceStateAdded:  
 		vrd::util::showToastInfo(QObject::tr("new_mic_plugin").toStdString());
 		emit instance().sigUpdateAudioDevices();
 		break;
-	// 拔出设备
+	// {zh} 拔出设备
+	// {en} Pull out the device
 	case bytertc::kMediaDeviceStateRemoved:
 	{
 		std::string curDeviceStr;
@@ -450,6 +440,22 @@ void VideoCallRtcEngineWrap::onAudioStateChanged(std::string device_id,
         emit instance().sigUpdateAudioDevices();
 		break;
 	}
+    case bytertc::kMediaDeviceStateRuntimeError:
+    {
+        std::string curDeviceStr;
+        VideoCallRtcEngineWrap::getAudioInputDevice(curDeviceStr);
+        if (strcmp(curDeviceStr.c_str(), device_id.c_str()) == 0 && !videocall::DataMgr::instance().mute_audio()){
+            if (error == bytertc::kMediaDeviceErrorDeviceNoPermission 
+                || error == bytertc::kMediaDeviceErrorDeviceFailure
+                || error == bytertc::kMediaDeviceErrorDeviceBusy) {
+                vrd::util::showToastInfo(QObject::tr("no_microphone_permission").toStdString());
+                videocall::DataMgr::instance().setMuteAudio(true);
+                VideoCallRtcEngineWrap::muteLocalAudio(true);
+                emit instance().sigUpdateAudio();
+            }
+        }
+        break;
+    }
 	default:
 		break;
 	}

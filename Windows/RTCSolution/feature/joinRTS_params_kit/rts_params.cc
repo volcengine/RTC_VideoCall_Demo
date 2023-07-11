@@ -10,12 +10,20 @@
 
 namespace vrd
 {
-    /**
+    /** {zh}
     * 获取场景初始化所需的业务服务器相关参数
     *
     * @param scenesName     场景名缩写
     * @param loginToken     登陆Token
     * @param callBack       请求回调
+    */
+
+    /** {en}
+    * Get the business server-related parameters required for scene initialization
+    *
+    * @param scenesName     scene name abbreviation
+    * @param loginToken     login Token
+    * @param callBack       request callback
     */
     void getJoinRTSParams(const std::string& scenesName, const std::string& loginToken, std::function<void(int)>&& callback) {
 

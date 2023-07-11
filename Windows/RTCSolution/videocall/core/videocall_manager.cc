@@ -224,9 +224,13 @@ void VideoCallManager::init() {
         [=] { showRealTimeData(instance().main_page_.get()); });
 }
 
-/**
+/** {zh}
  * 加载翻译文案
  */
+
+/** {en}
+* Load translation text
+*/
 void VideoCallManager::initTranslations() {
     QTranslator* translator = new QTranslator(qApp);
     if (translator->load(QLocale(), "videocall", "_", ":/videocall_translations") && QApplication::instance()) {

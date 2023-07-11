@@ -1,20 +1,26 @@
 #pragma once
 
 struct SnapshotAttr {
-    // 缩略图类型
+    // {zh} 缩略图类型
+    // {en} thumbnails type
     enum SnapshotType
     {
     kUnkonw = 0,
-    // 屏幕类型
+    // {zh} 屏幕类型
+    // {en} display screen share
     kScreen,
-    // 窗口类型
+    // {zh} 窗口类型
+    // {en}  window share
     kWindow
     };
-    // 缩略图名字
+    // {zh} 缩略图名字
+    // {en} thumbnail name
     std::string name;
     SnapshotType type = kUnkonw;
-    // 共享源ID
+    // {zh} 共享源ID
+    // {en} share source id
     void* source_id;
-    // 缩略图序号
+    // {zh} 缩略图序号
+    // {en} thumbnail index
     int index = 0;
 };

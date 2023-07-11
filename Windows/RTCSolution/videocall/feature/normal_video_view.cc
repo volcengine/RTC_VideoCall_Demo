@@ -30,7 +30,8 @@ NormalVideoView::~NormalVideoView() {
 }
 
 void NormalVideoView::showWidget(int cnt, bool forceUpdated) {
-    // 人数不变，不做更新
+    // {zh} 人数不变，不做更新
+    // {en} If the number of people does not change, do not update
     if (!forceUpdated && cnt == cnt_) { 
         return;
     }
@@ -128,7 +129,8 @@ void NormalVideoView::showWidgetWithIndex(int firstIndex) {
             list[index]->setVideoUpdateEnabled(false);
         }
         else {
-            // 空的widget，仅占位置
+            // {zh} 空的widget，仅占位置
+            // {en} Empty widget, only takes up space
             auto placeHolder = new QWidget(this);
             placeHolder->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             lay->addWidget(placeHolder, i / 2, i % 2);

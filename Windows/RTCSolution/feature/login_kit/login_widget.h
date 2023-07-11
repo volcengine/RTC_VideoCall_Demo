@@ -5,9 +5,13 @@
 #include <vector>
 
 class SceneSelectWidget;
-/**
+/** {zh}
  * 登录页面类，完成用户登录操作
  */
+
+/** {en}
+* Login page class, complete user login operation
+*/
 class LoginWidget : public QWidget {
     Q_OBJECT
 

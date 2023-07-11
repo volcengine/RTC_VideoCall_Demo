@@ -12,7 +12,8 @@ namespace vrd {
 		std::string machineUuid() {
 			static std::string machine_uuid;
 			if (machine_uuid.empty()) {
-				// 在同一台计算机上运行多个实例时, 使它们的设备ID不一样
+				// {zh} 在同一台计算机上运行多个实例时, 使它们的设备ID不一样
+				// {en} When running multiple instances on the same computer, make their device IDs different
 				QByteArray bytes; // = QSysInfo::machineUniqueId();
 				if (!bytes.isEmpty()) {
 					QUuid uuid(bytes);

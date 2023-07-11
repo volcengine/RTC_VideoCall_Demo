@@ -6,9 +6,13 @@ namespace Ui {
     class VideoCallShareWidget;
 }
 
-/**
+/** {zh}
  * 选择共享内容窗口，可选择屏幕桌面或者窗口
  */
+
+/** {en}
+* Select the shared content page, you can choose the screen desktop or window
+*/
 class VideoCallShareWidget : public QDialog
 {
     Q_OBJECT

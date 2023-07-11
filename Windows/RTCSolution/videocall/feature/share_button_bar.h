@@ -7,9 +7,14 @@
 namespace Ui {
     class ShareButtonBar;
 }
-/**
+/** {zh}
  * 本地内容共享的控制条,用于本地共享的时候控制音频，视频，结束共享等操作
  */
+
+/** {en}
+* The control bar for local content sharing is used to control audio, 
+* video, end sharing and other operations during local sharing
+*/
 class ShareButtonBar : public QWidget {
     Q_OBJECT
 

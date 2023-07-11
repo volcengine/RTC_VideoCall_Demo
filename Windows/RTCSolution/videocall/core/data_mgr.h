@@ -17,9 +17,13 @@ public:                                                              \
   void set##UPPER_MEMBER(const CLASS& MEMBER) { MEMBER##_ = MEMBER; } \
   void set##UPPER_MEMBER(CLASS&& MEMBER) { MEMBER##_ = std::move(MEMBER); }
 
-/**
+/** {zh}
  * 场景需要的数据定义类，用于不同类之前的数据同步
  */
+
+ /** {en}
+  * The data definition class required by the scene, used for data synchronization between different classes
+  */
 class DataMgr {
 public:
     static DataMgr& instance();

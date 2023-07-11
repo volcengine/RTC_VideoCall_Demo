@@ -20,6 +20,9 @@ public:
 	const char* local_description = "local";
 	void SetDisplayName(const QString& name);
 
+	bool isVideoMute() const;
+	bool isAudioMute() const;
+
 signals:
 	void SigMuteAudio(bool mute);
 	void SigMuteVideo(bool mute);

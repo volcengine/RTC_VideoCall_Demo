@@ -60,7 +60,7 @@ void VideoCallLoginWidget::showEvent(QShowEvent*) {
     }
 
     ui.edt_user_name->setText(videocall::DataMgr::instance().user_name().c_str());
-     ui.lbl_demo_ver->setText(QObject::tr("app_version_vxxx").arg("13.0.0"));
+     ui.lbl_demo_ver->setText(QObject::tr("app_version_vxxx").arg("12.0.8"));
 
 	ui.lbl_sdk_ver->setText(QObject::tr("sdk_version_vxxx").arg(RtcEngineWrap::getSDKVersion().c_str()));
     videocall::DataMgr::instance().setUserName(videocall::DataMgr::instance().user_name());
@@ -92,7 +92,8 @@ void VideoCallLoginWidget::initConnections() {
             if (login_) return;
             login_ = true;
             videocall::DataMgr::instance().setUserName(std::string(ui.edt_user_name->text().toUtf8()));
-            // 清除可能在其他房间的相同用户
+            // {zh} 清除可能在其他房间的相同用户
+            // {en} Clear the same user who may be in another room
             vrd::VideoCallSession::instance().cleanUser(videocall::DataMgr::instance().user_id(), 
                 [=](int code) {
                     auto roomId = QString("call_").append(ui.edt_room_id->text());
@@ -107,7 +108,8 @@ void VideoCallLoginWidget::initConnections() {
                                     videocall::DataMgr::instance().room_id(),
                                     videocall::DataMgr::instance().user_id(),
                                     videocall::DataMgr::instance().token());
-                                // 适配无摄像头权限进房后移动端头像画面初始化失败
+                                // {zh} 适配无摄像头权限进房后移动端头像画面初始化失败
+                                // {en} Solve the issue that the avatar of the mobile app fails to initialize after entering the room without camera permission
                                 VideoCallRtcEngineWrap::muteLocalVideo(videocall::DataMgr::instance().mute_video());
                                 VideoCallRtcEngineWrap::enableLocalVideo(!videocall::DataMgr::instance().mute_video());
                                 VideoCallRtcEngineWrap::muteLocalAudio(videocall::DataMgr::instance().mute_audio());

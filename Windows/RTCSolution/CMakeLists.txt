@@ -91,8 +91,8 @@ if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN BOOST_ALL_NO_LIB BOOST_ERROR_CODE_HEADER_ONLY)
   # set compile options
   target_compile_options(${PROJECT_NAME} PRIVATE /MP)
-  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Debug>:/MTd>")
-  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:/MT>" "$<$<CONFIG:Release>:/ZI>")
+  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Debug>:/MDd>")
+  target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:Release>:/MD>" "$<$<CONFIG:Release>:/ZI>")
 
   #set properties
   set_target_properties(${PROJECT_NAME} PROPERTIES

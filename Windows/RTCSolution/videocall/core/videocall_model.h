@@ -30,7 +30,8 @@ namespace videocall {
     struct User {
         std::string user_id;
         std::string user_name;
-        // 加入通话的时间
+        // {zh} 加入通话的时间
+        // {en} UTC/GMT join call time
         int64_t created_at{ 0 };
         bool is_sharing{ false };
         bool is_mic_on{ false };
@@ -41,32 +42,43 @@ namespace videocall {
     struct VideoCallRoom {
       std::string room_id;
       std::string screen_shared_uid;
-      // 通话持续时间
+      // {zh} 通话持续时间
+      // {en} UTC/GMT, call duration time
       int64_t duration;
     };
 
     struct StreamInfo {
         std::string user_id;
         std::string user_name;
-        // 分辨率的宽度值
+        // {zh} 分辨率的宽度值
+        // {en} Resolution width value
         int width;
-        // 分辨率的高度值
+        // {zh} 分辨率的高度值
+        // {en} Resolution height value
         int height;
-        // 视频帧率
+        // {zh} 视频帧率
+        // {en} video frame rate
         int video_fps;
-        // 视频码率
+        // {zh} 视频码率
+        // {en} Video bit rate
         int video_kbitrate;
-        // 音频码率
+        // {zh} 音频码率
+        // {en} audio bit rate
         int audio_kbitrate;
-        // 音频时延
+        // {zh} 音频时延
+        // {en} audio delay
         int audio_delay;
-        // 视频时延
+        // {zh} 视频时延
+        // {en} video delay
         int video_delay;
-        // 音频丢包率
+        // {zh} 音频丢包率
+        // {en} audio packet loss rate
         float audio_loss_rate;
-        // 视频丢包率
+        // {zh} 视频丢包率
+        // {en} Video packet loss rate
         float video_loss_rate;
-        // 网络质量
+        // {zh} 网络质量
+        // {en} network quality
         int natwork_quality;
     };
 }

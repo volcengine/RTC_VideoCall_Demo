@@ -109,6 +109,16 @@ void Videocell::SetDisplayName(const QString& name)
 	m_display_name_->setText(name);
 }
 
+bool Videocell::isVideoMute() const
+{
+	return m_bvideomute;
+}
+
+bool Videocell::isAudioMute() const
+{
+	return m_baudiomute;
+}
+
 void Videocell::RemoteSetVideoMute(bool mute)
 {
 	updateVideoIcon(mute);
@@ -149,7 +159,8 @@ void Videocell::RemoteSetAudioMute(bool mute)
 
 bool Videocell::eventFilter(QObject* obj, QEvent* event)
 {
-	// 指定某个QLabel
+	// {zh} 指定某个QLabel
+	// {en} Specify a QLabel
 	if (obj == m_video_label_ || obj == m_audio_label_)
 	{
 		if (event->type() == QEvent::MouseButtonPress)
