@@ -99,7 +99,7 @@
         [self dismiss];
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_queue_async_safe(dispatch_get_main_queue(), ^{
         ToastView *toastView = [[ToastView alloc] initWithFrame:windowView.frame];
         [toastView startLoading];
         [windowView addSubview:toastView];

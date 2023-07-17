@@ -20,6 +20,7 @@ typedef void (^RTCSendServerMessageBlock)(RTSACKModel *ackModel);
 @property (nonatomic, copy) NSString *eventName;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, copy) NSString *deviceID;
+@property (nonatomic, assign) BOOL imChannel;
 @property (nonatomic, copy) RTCSendServerMessageBlock requestBlock;
 
 @end

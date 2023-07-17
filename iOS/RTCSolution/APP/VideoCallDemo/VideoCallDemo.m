@@ -5,43 +5,36 @@
 
 #import "VideoCallDemo.h"
 #import "JoinRTSParams.h"
-#import "VideoCallLoginViewController.h"
-#import "VideoCallRTCManager.h"
 #import "VideoCallDemoConstants.h"
+#import "VideoCallRTCManager.h"
+#import "VideoCallHomeViewController.h"
+
+extern int VideoCallOnTheCallType;
 
 @implementation VideoCallDemo
 
 - (void)pushDemoViewControllerBlock:(void (^)(BOOL result))block {
     [super pushDemoViewControllerBlock:block];
-
-    JoinRTSInputModel *inputModel = [[JoinRTSInputModel alloc] init];
-    inputModel.scenesName = self.scenesName;
-    inputModel.loginToken = [LocalUserComponent userModel].loginToken;
-    __weak __typeof(self) wself = self;
-    [JoinRTSParams getJoinRTSParams:inputModel
-                              block:^(JoinRTSParamsModel * _Nonnull model) {
-        [wself joinRTS:model block:block];
-    }];
-}
-
-- (void)joinRTS:(JoinRTSParamsModel * _Nonnull)model
-          block:(void (^)(BOOL result))block {
-    if (!model) {
-        [[ToastComponent shareToastComponent] showWithMessage:LocalizedString(@"connection_failed")];
+    
+    if (VideoCallOnTheCallType > 0) {
+        VideoCallHomeViewController *next = [[VideoCallHomeViewController alloc] init];
+        UIViewController *topVC = [DeviceInforTool topViewController];
+        [topVC.navigationController pushViewController:next animated:YES];
         if (block) {
-            block(NO);
+            block(YES);
         }
+        
         return;
     }
-    // Connect RTS
-    [[VideoCallRTCManager shareRtc] connect:model.appId
-                                   RTSToken:model.RTSToken
-                                  serverUrl:model.serverUrl
-                                  serverSig:model.serverSignature
-                                        bid:model.bid
-                                      block:^(BOOL result) {
+    
+    [VideoCallRTSManager connectRTCBlock:^(BOOL result) {
         if (result) {
-            VideoCallLoginViewController *next = [[VideoCallLoginViewController alloc] init];
+            
+            [VideoCallRTSManager clearUser:^(RTSACKModel * _Nonnull model) {
+                
+            }];
+            
+            VideoCallHomeViewController *next = [[VideoCallHomeViewController alloc] init];
             UIViewController *topVC = [DeviceInforTool topViewController];
             [topVC.navigationController pushViewController:next animated:YES];
         } else {

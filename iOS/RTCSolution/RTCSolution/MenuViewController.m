@@ -58,6 +58,7 @@
     }];
     
     [self scenesButtonAction];
+    [self initializeIMKitIfNeed];
     [MenuLoginHome showLoginViewControllerAnimated:NO];
 }
 
@@ -88,6 +89,11 @@
     } else {
         [MenuLoginHome showLoginViewControllerAnimated:YES];
     }
+}
+
+- (void)initializeIMKitIfNeed {
+    // 如果导入了IM组件，初始化，IMService重写了initialize方法
+    [NSClassFromString(@"IMService") initialize];
 }
 
 #pragma mark - Touch Action

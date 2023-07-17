@@ -8,6 +8,10 @@
 
 static NSString * _Nullable const NotificationLoginExpired = @"NotificationLoginExpired";
 
+static NSString * _Nullable const NotificationLoginSuccess = @"NotificationLoginSuccess";
+
+static NSString * _Nonnull const NotificationCloseVideoCallNarrow = @"NotificationCloseVideoCallNarrow";
+
 #define SCREEN_WIDTH  ([UIScreen mainScreen].bounds.size.width)
 
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)

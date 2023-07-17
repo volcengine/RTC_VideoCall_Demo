@@ -15,17 +15,43 @@ import com.volcengine.vertcdemo.login.LoginActivity;
 import com.volcengine.vertcdemo.protocol.ILogin;
 import com.volcengine.vertcdemo.utils.CloseAccountManager;
 
+import java.util.function.Function;
+
 @SuppressWarnings("unused")
 @Keep
 public class ILoginImpl implements ILogin {
+    private static class Holder {
+        private static final ILoginImpl loginService = new ILoginImpl();
+    }
+
+    public static ILogin getLoginService() {
+        return Holder.loginService;
+    }
+
+    private Runnable mSuccessTask;
+
+    public void notifyLoginSuccess() {
+        if (mSuccessTask != null) {
+            mSuccessTask.run();
+        }
+    }
 
     @Override
-    public void showLoginView(Context context) {
+    public boolean isLogin() {
+        return !TextUtils.isEmpty(SolutionDataManager.ins().getToken());
+    }
+
+    @Override
+    public void showLoginView(Context context, Runnable successTask) {
         if (context == null) {
             return;
         }
-        String token = SolutionDataManager.ins().getToken();
-        if (TextUtils.isEmpty(token)) {
+        if (isLogin()) {
+            if (successTask != null) successTask.run();
+            return;
+        }
+        mSuccessTask = successTask;
+        if (!isLogin()) {
             context.startActivity(new Intent(context, LoginActivity.class));
         }
     }

@@ -72,7 +72,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Appstore_Volcengine"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

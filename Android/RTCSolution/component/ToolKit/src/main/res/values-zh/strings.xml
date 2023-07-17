@@ -49,7 +49,7 @@
     <string name="voice_chat">语音聊天室</string>
     <string name="video_chat">视频互动</string>
     <string name="ktv">在线KTV</string>
-    <string name="audio_video_calls">音视频通话</string>
+    <string name="group_audio_video_calls">多人音视频通话</string>
     <string name="available_update">应用有更新，
 立即去下载最新版本？</string>
     <string name="settings">设置</string>

@@ -6,6 +6,8 @@ package com.volcengine.vertcdemo.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.volcengine.vertcdemo.utils.AppUtil;
+
 public class SPUtils {
     private static volatile SharedPreferences sPrefs;
 
@@ -14,10 +16,9 @@ public class SPUtils {
 
     private static SharedPreferences getPrefs() {
         if (sPrefs == null) {
-            throw new IllegalStateException("Please initSP at first!!!");
-        } else {
-            return sPrefs;
+            initSP(AppUtil.getApplicationContext(), "solution_application_sp");
         }
+        return sPrefs;
     }
 
     public static void initSP(Context context, String prefsName) {

@@ -82,6 +82,7 @@
             [wself dismissViewControllerAnimated:YES completion:^{
                 
             }];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationLoginSuccess object:nil];
         } else {
             [[ToastComponent shareToastComponent] showWithMessage:errorStr];
         }

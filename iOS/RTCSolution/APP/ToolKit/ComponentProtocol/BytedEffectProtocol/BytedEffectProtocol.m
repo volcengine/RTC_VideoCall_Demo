@@ -14,9 +14,18 @@
 @implementation BytedEffectProtocol
 
 - (instancetype)initWithRTCEngineKit:(id)rtcEngineKit {
+    return [self initWithRTCEngineKit:rtcEngineKit type:BytedEffectTypeDefault];
+}
+
+- (instancetype)initWithRTCEngineKit:(id)rtcEngineKit type:(BytedEffectType)type {
     // 开源代码暂不支持美颜相关功能，体验效果请下载Demo
     // Open source code does not support beauty related functions, please download Demo to experience the effect
-    NSObject<BytedEffectDelegate> *effectBeautyComponent = [[NSClassFromString(@"EffectBeautyComponent") alloc] init];
+    NSObject<BytedEffectDelegate> *effectBeautyComponent = nil;
+    if (type == BytedEffectTypeVideoCall) {
+        effectBeautyComponent = [[NSClassFromString(@"VideoCallBeautyComponent") alloc] init];
+    } else {
+        effectBeautyComponent = [[NSClassFromString(@"EffectBeautyComponent") alloc] init];
+    }
     if (effectBeautyComponent) {
         self.bytedEffectDelegate = effectBeautyComponent;
     }
@@ -38,6 +47,14 @@
     }
 }
 
+- (void)showInView:(UIView *)superView
+          animated:(BOOL)animated
+      dismissBlock:(void (^)(BOOL))block {
+    if ([self.bytedEffectDelegate respondsToSelector:@selector(protocol:showInView:animated:dismissBlock:)]) {
+        [self.bytedEffectDelegate protocol:self showInView:superView animated:animated dismissBlock:block];
+    }
+}
+
 - (void)resume {
     if ([self.bytedEffectDelegate respondsToSelector:@selector(protocol:resume:)]) {
         [self.bytedEffectDelegate protocol:self
@@ -49,6 +66,12 @@
     if ([self.bytedEffectDelegate respondsToSelector:@selector(protocol:reset:)]) {
         [self.bytedEffectDelegate protocol:self
                                      reset:YES];
+    }
+}
+
+- (void)saveBeautyConfig {
+    if ([self.bytedEffectDelegate respondsToSelector:@selector(protocol:saveBeautyConfig:)]) {
+        [self.bytedEffectDelegate protocol:self saveBeautyConfig:YES];
     }
 }
 

@@ -3,45 +3,81 @@
 // SPDX-License-Identifier: MIT
 // 
 
-#import "BaseRTCManager.h"
-#import "VideoCallRoomUserModel.h"
 #import <Foundation/Foundation.h>
+#import "VideoCallUserModel.h"
+#import "VideoCallVoipInfo.h"
+#import "BaseRTSManager.h"
+@class VideoCallRTSManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface VideoCallRTSManager : BaseRTCManager
+@protocol VideoCallRTSManagerDelegate <NSObject>
 
-#pragma mark - Get meeting data
+/**
+ * @brief 收到信令消息回调
+ * @param manager VideoCallRTSManager 模型
+ * @param type 消息类型
+ * @param info 房间信息
+ */
+- (void)videoCallRTSManager:(VideoCallRTSManager *)manager
+          onReceivedMessage:(VideoCallEventType)type
+                  infoModel:(VideoCallVoipInfo *)info;
 
-/*
- * Join the meeting
- * @param loginModel Login user data
+@end
+
+@interface VideoCallRTSManager : BaseRTSManager
+
+@property (nonatomic, weak) id<VideoCallRTSManagerDelegate> delegate;
+
+/**
+ * @brief 获取VideoCallRTSManager实例对象
+ */
++ (VideoCallRTSManager *)getRTSManager;
+
+/**
+ * @brief 创建RTC引擎
  * @param block Callback
  */
-+ (void)joinRoom:(VideoCallRoomUserModel *)loginModel
-           block:(void (^)(NSString *token,
-                           NSInteger duration,
-                           RTSACKModel *model))block;
++ (void)connectRTCBlock:(void(^)(BOOL result))block;
 
-/*
- * Leave room
+/**
+ * @brief 跳转通话页面
+ * @param infoModel 通话信息Model
+ * @param viewController 当前ViewController
  */
-+ (void)leaveRoom;
++ (void)jumpToVideoCallViewController:(VideoCallVoipInfo *)infoModel currentViewController:(UIViewController *_Nullable)viewController;
 
-/*
- * Reconnect
+/**
+ * @brief 通过用户ID搜索用户
+ * @param userID User ID
  * @param block Callback
  */
-+ (void)reconnectWithBlock:(void (^)(NSString *RTCToken,
-                                     RTSACKModel *model))block;
++ (void)searchUser:(NSString *)userID
+             block:(void(^)(NSArray<VideoCallUserModel *> *userList, NSString *errorMessage))block;
 
-#pragma mark - Notification message
-
-/*
- * On close room
+/**
+ * @brief 呼叫用户
+ * @param userModel 被叫用户信息
  * @param block Callback
  */
-+ (void)onCloseRoomWithBlock:(void (^)(NSString *roomId))block;
++ (void)callUser:(VideoCallUserModel *)userModel
+           block:(void(^)(BOOL success, VideoCallVoipInfo *info, NSString *message))block;
+
+/**
+ * @brief 更新用户状态
+ * @param status 状态
+ * @param info voip信息
+ * @param block Callback
+ */
++ (void)updateStatus:(VideoCallState)status
+                info:(VideoCallVoipInfo *)info
+               block:(void(^)(RTSACKModel *model))block;
+
+/**
+ * @brief 清除用户状态
+ * @param block Callback
+ */
++ (void)clearUser:(void (^)(RTSACKModel *model))block;
 
 @end
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.vertcdemo.joinrtsparams.bean.ImChannelConfig;
 import com.vertcdemo.joinrtsparams.bean.JoinRTSRequest;
 import com.volcengine.vertcdemo.core.SolutionDataManager;
 import com.volcengine.vertcdemo.core.net.IRequestCallback;
@@ -17,6 +18,8 @@ import com.volcengine.vertcdemo.core.net.http.HttpRequestHelper;
 import com.volcengine.vertcdemo.core.net.rts.RTSInfo;
 
 import org.json.JSONObject;
+
+import java.util.UUID;
 
 public class JoinRTSManager {
 
@@ -75,4 +78,51 @@ public class JoinRTSManager {
             callBack.onError(-1, e.getMessage());
         }
     }
+
+    public static void getIMChannelInfo(String loginToken,
+                                        IRequestCallback<ImChannelConfig> callBack) {
+        JSONObject params = new JSONObject();
+        try {
+            JSONObject content = new JSONObject();
+            content.put("login_token", loginToken);
+            content.put("platform", "android");
+            content.put("app_id", Constants.APP_ID);
+            content.put("app_key", Constants.APP_KEY);
+            content.put("volc_ak", Constants.VOLC_AK);
+            content.put("volc_sk", Constants.VOLC_SK);
+            params.put("content", content.toString());
+            params.put("event_name", "getIMChannelInfo");
+            params.put("device_id", SolutionDataManager.ins().getDeviceId());
+            params.put("request_id", UUID.randomUUID().toString());
+        } catch (Exception e) {
+            //ignore
+        }
+        Log.d(TAG, "IMService init params:" + params);
+        HttpRequestHelper.sendPost(params, ImChannelConfig.class,
+                new IRequestCallback<ServerResponse<ImChannelConfig>>() {
+                    @Override
+                    public void onSuccess(ServerResponse<ImChannelConfig> data) {
+                        if (callBack == null) {
+                            return;
+                        }
+                        ImChannelConfig config = data == null ? null : data.getData();
+                        if (config != null && config.isValid()) {
+                            callBack.onSuccess(data.getData());
+                        } else {
+                            callBack.onError(
+                                    data == null ? -1 : data.getCode(),
+                                    data == null ? "im channel info is null" : data.getMsg()
+                            );
+                        }
+                    }
+
+                    @Override
+                    public void onError(int errorCode, String message) {
+                        if (callBack != null) {
+                            callBack.onError(errorCode, message);
+                        }
+                    }
+                });
+    }
+
 }

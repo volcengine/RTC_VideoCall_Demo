@@ -80,7 +80,7 @@
 "voice_chat_scenes"="语音聊天室";
 "video_chat"="视频互动";
 "ktv"="在线KTV";
-"audio_video_calls"="音视频通话";
+"group_audio_video_calls"="多人音视频";
 "chorus_ktv"="双人合唱";
 "watch_live_together"="一起看直播";
 "watch_video_together"="一起看抖音";
@@ -89,3 +89,6 @@
 "interactive_live_scenes"="互动直播";
 "video_chat_scenes"="视频互动";
 "language_code"="chinese";
+"audio_video_calls"="音视频通话";
+"video_call_in_audio_calling_tip" = "当前正在语音通话中，\n确定退出通话？";
+"video_call_in_video_calling_tip" = "当前正在视频通话中，\n确定退出通话？";

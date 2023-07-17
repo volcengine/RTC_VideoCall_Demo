@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_call_panel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/bg_page">
+
+    <!--Video Local View-->
+    <TextureView
+        android:id="@+id/video_screen_render_sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--Video Remote View-->
+    <FrameLayout
+        android:id="@+id/video_window_render_fl"
+        android:layout_width="90dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_float_window_voice"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <FrameLayout
+            android:id="@+id/name_prefix_fl"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/name_prefix_tv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_calle_name_prefix"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="朱" />
+
+        </FrameLayout>
+
+        <TextureView
+            android:id="@+id/video_window_render_sv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <Space
+        android:id="@+id/placeholder_space"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/video_control_btns"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder_space">
+
+        <TextView
+            android:id="@+id/calling_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="正在等待对方接听...." />
+
+        <ImageView
+            android:id="@+id/camera_toggler_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:padding="20dp"
+            android:src="@drawable/ic_control_camera_btn"
+            app:layout_constraintEnd_toStartOf="@+id/microphone_toggler_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calling_hint_tv" />
+
+        <TextView
+            android:id="@+id/camera_toggler_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/camera"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/camera_toggler_btn"
+            app:layout_constraintStart_toStartOf="@+id/camera_toggler_btn"
+            app:layout_constraintTop_toBottomOf="@+id/camera_toggler_btn" />
+
+        <ImageView
+            android:id="@+id/microphone_toggler_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:padding="20dp"
+            android:src="@drawable/ic_microphone_on"
+            app:layout_constraintEnd_toStartOf="@+id/audio_route_btn"
+            app:layout_constraintStart_toEndOf="@+id/camera_toggler_btn"
+            app:layout_constraintTop_toTopOf="@+id/camera_toggler_btn" />
+
+        <TextView
+            android:id="@+id/microphone_toggler_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/microphone"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/microphone_toggler_btn"
+            app:layout_constraintStart_toStartOf="@+id/microphone_toggler_btn"
+            app:layout_constraintTop_toBottomOf="@+id/microphone_toggler_btn" />
+
+        <ImageView
+            android:id="@+id/audio_route_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:padding="20dp"
+            android:src="@drawable/ic_audio_route_speaker"
+            app:layout_constraintEnd_toStartOf="@+id/camera_switcher_calling_btn"
+            app:layout_constraintStart_toEndOf="@+id/microphone_toggler_btn"
+            app:layout_constraintTop_toTopOf="@+id/camera_toggler_btn" />
+
+        <TextView
+            android:id="@+id/audio_route_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/speaker"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/audio_route_btn"
+            app:layout_constraintStart_toStartOf="@+id/audio_route_btn"
+            app:layout_constraintTop_toBottomOf="@+id/audio_route_btn" />
+
+        <ImageView
+            android:id="@+id/camera_switcher_calling_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:padding="20dp"
+            android:src="@drawable/ic_camera_switch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/audio_route_btn"
+            app:layout_constraintTop_toTopOf="@+id/camera_toggler_btn" />
+
+        <TextView
+            android:id="@+id/camera_switcher_calling_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/camera_switch"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/camera_switcher_calling_btn"
+            app:layout_constraintStart_toStartOf="@+id/camera_switcher_calling_btn"
+            app:layout_constraintTop_toBottomOf="@+id/camera_switcher_calling_btn" />
+
+        <ImageView
+            android:id="@+id/video_effect_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:padding="20dp"
+            android:src="@drawable/ic_video_effect"
+            app:layout_constraintEnd_toStartOf="@+id/hangup_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/camera_toggler_btn" />
+
+        <TextView
+            android:id="@+id/video_effect_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/beauty"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/video_effect_btn"
+            app:layout_constraintStart_toStartOf="@+id/video_effect_btn"
+            app:layout_constraintTop_toBottomOf="@+id/video_effect_btn" />
+
+        <ImageView
+            android:id="@+id/hangup_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:src="@drawable/ic_hangup"
+            app:layout_constraintEnd_toStartOf="@+id/dial_btn"
+            app:layout_constraintStart_toEndOf="@+id/video_effect_btn"
+            app:layout_constraintTop_toBottomOf="@+id/camera_toggler_btn" />
+
+        <ImageView
+            android:id="@+id/dial_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:src="@drawable/ic_dial_put_through"
+            app:layout_constraintEnd_toStartOf="@+id/camera_switch_on_call_btn"
+            app:layout_constraintStart_toEndOf="@+id/hangup_btn"
+            app:layout_constraintTop_toBottomOf="@+id/camera_toggler_btn" />
+
+        <ImageView
+            android:id="@+id/camera_switch_on_call_btn"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_control_panel_btn"
+            android:padding="20dp"
+            android:src="@drawable/ic_camera_switch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dial_btn"
+            app:layout_constraintTop_toTopOf="@+id/hangup_btn" />
+
+        <TextView
+            android:id="@+id/camera_switch_on_call_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/camera_switch"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/camera_switch_on_call_btn"
+            app:layout_constraintStart_toStartOf="@+id/camera_switch_on_call_btn"
+            app:layout_constraintTop_toBottomOf="@+id/camera_switch_on_call_btn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/effect_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <FrameLayout
+            android:id="@+id/effect_container"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_gravity="bottom" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,96 @@
+[
+    {
+      "title"        : "none",
+      "showName"       : "关闭",
+      "imageName"   : "InteractiveLive_no_beauty",
+      "filterName"  : ""
+    },
+    {
+        "title"        : "filter_portrait",
+        "showName"       : "人像",
+        "imageName"   : "filter_portrait",
+        "childrens": [
+            {
+                "title"      : "filter_cold_white_bark",
+                "showName"     : "冷白皮",
+                "imageName" : "filter_cold_white_bark",
+                "filterName": "Filter_48_4001"
+            },
+            {
+                "title"      : "filter_nature",
+                "showName"     : "自然",
+                "imageName" : "filter_nature",
+                "filterName": "Filter_38_F1"
+            },
+            {
+                "title"      : "filter_bright",
+                "showName"     : "透亮",
+                "imageName" : "filter_bright",
+                "filterName": "Filter_49_4002"
+            },
+            {
+                "title"      : "filter_dracula",
+                "showName"     : "德古拉",
+                "imageName" : "filter_dracula",
+                "filterName": "Filter_53_4006"
+            },
+            {
+                "title"      : "filter_brilliant_orange",
+                "showName"     : "亮橘",
+                "imageName" : "filter_brilliant_orange",
+                "filterName": "Filter_50_4003"
+            },
+            {
+                "title"      : "filter_milk_tea",
+                "showName"     : "奶茶",
+                "imageName" : "filter_milk_tea",
+                "filterName": "Filter_27_Po5"
+            },
+        ]
+    },
+    {
+        "title"        : "filter_food",
+        "showName"       : "美食",
+        "imageName"   : "filter_food",
+        "childrens": [
+            {
+                "title"      : "filter_sparkling_water",
+                "showName"     : "气泡水",
+                "imageName" : "filter_sparkling_water",
+                "filterName": "Filter_57_4010"
+            },
+        ]
+    },
+    {
+        "title"        : "filter_scenery",
+        "showName"       : "风景",
+        "imageName"   : "filter_scenery",
+        "childrens": [
+            {
+                "title"      : "filter_hokkaido",
+                "showName"     : "北海道",
+                "imageName" : "filter_hokkaido",
+                "filterName": "Filter_12_08"
+            },
+            {
+                "title"      : "filter_green",
+                "showName"     : "绿妍",
+                "imageName" : "filter_green",
+                "filterName": "Filter_62_4015"
+            },
+        ]
+    },
+    {
+        "title"        : "filter_retro",
+        "showName"       : "复古",
+        "imageName"   : "filter_retro",
+        "childrens": [
+            {
+                "title"      : "filter_american_film",
+                "showName"     : "美式胶片",
+                "imageName" : "filter_american_film",
+                "filterName": "Filter_43_S1"
+            },
+        ]
+    },
+]

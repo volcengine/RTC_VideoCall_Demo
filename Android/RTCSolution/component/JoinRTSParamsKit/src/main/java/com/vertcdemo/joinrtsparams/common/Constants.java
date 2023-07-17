@@ -3,8 +3,11 @@
 
 package com.vertcdemo.joinrtsparams.common;
 
+import androidx.annotation.Keep;
+
 import com.vertcdemo.joinrtsparams.BuildConfig;
 
+@Keep
 public class Constants {
 
     /**

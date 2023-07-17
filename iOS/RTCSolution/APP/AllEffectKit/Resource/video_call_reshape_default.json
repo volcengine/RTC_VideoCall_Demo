@@ -1,0 +1,127 @@
+{
+    "beauty" : [
+        {
+            "title" : "none",
+            "imageName" : "InteractiveLive_no_beauty",
+            "value" : 0,
+            "cvKey" : "",
+            "composeName" : ""
+        },
+        {
+            "title" : "whitening",
+            "imageName" : "beauty_white",
+            "value" : 0.7,
+            "cvKey" : "whiten",
+            "composeName" : "beauty_IOS_lite"
+        },
+        {
+            "title" : "microdermabrasion",
+            "imageName" : "beauty_smooth",
+            "value" : 0.8,
+            "cvKey" : "smooth",
+            "composeName" : "beauty_IOS_lite"
+        },
+        {
+            "title" : "beauty_sharpen",
+            "imageName" : "beauty_sharp",
+            "value" : 0.5,
+            "cvKey" : "sharp",
+            "composeName" : "beauty_IOS_lite"
+        },
+        {
+            "title" : "beauty_clear",
+            "imageName" : "beauty_clear",
+            "value" : 0.7,
+            "cvKey" : "clear",
+            "composeName" : "beauty_IOS_lite"
+        }
+    ],
+    "reshape" : [
+        {
+            "title" : "none",
+            "imageName" : "InteractiveLive_no_beauty",
+            "value" : 0,
+            "cvKey" : "",
+            "composeName" : ""
+        },
+        {
+            "title" : "big_eyes",
+            "imageName" : "reshape_eye",
+            "value" : 0.3,
+            "cvKey" : "Internal_Deform_Eye",
+            "composeName" : "reshape_lite"
+        },
+        {
+            "title" : "beauty_narrow_face",
+            "imageName" : "reshape_cut_face",
+            "value" : 0,
+            "cvKey" : "Internal_Deform_CutFace",
+            "composeName" : "reshape_lite",
+            "childrens" : [
+                {
+                    "title" : "thin_face",
+                    "imageName" : "reshape_face_normal",
+                    "value" : 0.8,
+                    "cvKey" : "Internal_Deform_Overall",
+                    "composeName" : "reshape_lite"
+                },
+                {
+                    "title" : "reshape_face_boy",
+                    "imageName" : "reshape_face_boy",
+                    "value" : 0.8,
+                    "cvKey" : "Internal_Deform_Overall",
+                    "composeName" : "reshape_boy"
+                },
+                {
+                    "title" : "reshape_face_girl",
+                    "imageName" : "reshape_face_girl",
+                    "value" : 0.8,
+                    "cvKey" : "Internal_Deform_Overall",
+                    "composeName" : "reshape_girl"
+                },
+                {
+                    "title" : "reshape_face_nature",
+                    "imageName" : "reshape_face_nature",
+                    "value" : 0,
+                    "cvKey" : "Internal_Deform_Overall",
+                    "composeName" : "reshape_nature"
+                }
+            ]
+        },
+        {
+            "title" : "beauty_cheekbones",
+            "imageName" : "reshape_zoom_cheekbone",
+            "value" : 0,
+            "cvKey" : "Internal_Deform_Zoom_Cheekbone",
+            "composeName" : "reshape_lite"
+        },
+        {
+            "title" : "beauty_jaw",
+            "imageName" : "reshape_zoom_jawbone",
+            "value" : 0,
+            "cvKey" : "Internal_Deform_Zoom_Jawbone",
+            "composeName" : "reshape_lite"
+        },
+        {
+            "title" : "beauty_nose",
+            "imageName" : "reshape_nose",
+            "value" : 0.5,
+            "cvKey" : "Internal_Deform_Nose",
+            "composeName" : "reshape_lite"
+        },
+        {
+            "title" : "beauty_law_pattern",
+            "imageName" : "reshape_smiles_folds",
+            "value" : 0.7,
+            "cvKey" : "BEF_BEAUTY_SMILES_FOLDS",
+            "composeName" : "beauty_4Items"
+        },
+        {
+            "title" : "beauty_dark_circles",
+            "imageName" : "reshape_remove_pouch",
+            "value" : 0.6,
+            "cvKey" : "BEF_BEAUTY_REMOVE_POUCH",
+            "composeName" : "beauty_4Items"
+        }
+    ]
+}

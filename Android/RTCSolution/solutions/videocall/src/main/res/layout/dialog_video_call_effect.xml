@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="230dp">
+
+    <SeekBar
+        android:id="@+id/effect_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:max="100"
+        android:maxHeight="5dp"
+        android:progressDrawable="@drawable/effect_seekbar_bg"
+        android:thumb="@drawable/effect_thumb_icon"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/effect_seekbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/seekbar_title"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/effect_seekbar_value"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_gravity="bottom"
+        android:background="@color/blue_0E0825_80" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/effect_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="3dp"
+        android:layout_marginBottom="130dp"
+        android:background="@color/transparent"
+        app:tabIndicatorColor="@color/blue"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/blue"
+        app:tabTextAppearance="@style/EffectTabText"
+        app:tabTextColor="@color/white" />
+
+    <TextView
+        android:id="@+id/reset_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="130dp"
+        android:text="@string/reset"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/effect_vp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.volcengine.vertcdemo.videocall.effect.view.EffectsChildView
+        android:id="@+id/effects_child_view"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_gravity="bottom"
+        android:visibility="gone" />
+
+</FrameLayout>

@@ -1,0 +1,6 @@
+framework module VolcEngineRTS {
+  umbrella header "VolcEngineRTS.h"
+
+  export *
+  module * { export * }
+}

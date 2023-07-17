@@ -8,8 +8,11 @@ import android.content.Context;
 import com.volcengine.vertcdemo.common.IAction;
 
 public interface ILogin {
+    boolean isLogin();
 
-    void showLoginView(Context context);
+    void notifyLoginSuccess();
+
+    void showLoginView(Context context, Runnable successTask);
 
     void closeAccount(IAction<Boolean> action);
 }

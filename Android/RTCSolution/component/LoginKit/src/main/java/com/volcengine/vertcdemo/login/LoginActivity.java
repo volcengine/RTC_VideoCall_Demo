@@ -33,6 +33,7 @@ import com.volcengine.vertcdemo.core.net.ServerResponse;
 import com.volcengine.vertcdemo.entity.LoginInfo;
 import com.volcengine.vertcdemo.login.databinding.ActivityLoginBinding;
 import com.volcengine.vertcdemo.utils.IMEUtils;
+import com.volcengine.vertcdemo.ILoginImpl;
 
 import java.util.regex.Pattern;
 
@@ -175,6 +176,7 @@ public class LoginActivity extends SolutionBaseActivity implements View.OnClickL
                 SolutionDataManager.ins().setUserId(login.user_id);
                 SolutionDataManager.ins().setToken(login.login_token);
                 SolutionDemoEventManager.post(new RefreshUserNameEvent(login.user_name, true));
+                ILoginImpl.getLoginService().notifyLoginSuccess();
                 LoginActivity.this.finish();
             }
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:background="@color/black">
+
+    <SurfaceView
+        android:id="@+id/video_render_sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/close_btn"
+        android:layout_width="58dp"
+        android:layout_height="30dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="25dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_close" />
+
+    <FrameLayout
+        android:id="@+id/effect_fl"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_gravity="bottom" />
+
+</FrameLayout>

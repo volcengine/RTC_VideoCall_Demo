@@ -9,6 +9,70 @@
 
 @implementation JoinRTSParams
 
++ (void)getJoinGlobalRTSParams:(NSString *)loginToken
+                         block:(void (^)(JoinGlobalRTSParamsModel * _Nullable))block {
+    
+    NSString *errorMessage = @"";
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    if (NOEmptyStr(APPID)) {
+        [dic setValue:APPID forKey:@"app_id"];
+    } else {
+        errorMessage = @"APPID";
+    }
+    
+    if (NOEmptyStr(APPKey)) {
+        [dic setValue:APPKey forKey:@"app_key"];
+    } else {
+        errorMessage = @"APPKey";
+    }
+    
+    if (NOEmptyStr(AccessKeyID)) {
+        [dic setValue:AccessKeyID forKey:@"volc_ak"];
+    } else {
+        errorMessage = @"AccessKeyID";
+    }
+    
+    if (NOEmptyStr(SecretAccessKey)) {
+        [dic setValue:SecretAccessKey forKey:@"volc_sk"];
+    } else {
+        errorMessage = @"SecretAccessKey";
+    }
+    
+    if (NOEmptyStr([LocalUserComponent userModel].loginToken)) {
+        [dic setValue:[LocalUserComponent userModel].loginToken forKey:@"login_token"];
+    } else {
+        errorMessage = @"loginToken";
+    }
+    
+    [dic setValue:@"ios" forKey:@"platform"];
+    
+    if (NOEmptyStr(errorMessage)) {
+        errorMessage = [NSString stringWithFormat:@"%@ 为空请查看配置", errorMessage];
+        if (block) {
+            block(nil);
+        }
+        return;
+    }
+    
+    [PublicParameterComponent share].appId = APPID;
+    [NetworkingManager postWithEventName:@"getIMChannelInfo"
+                                   space:@"login"
+                                 content:dic
+                                   block:^(NetworkingResponse * _Nonnull response) {
+        
+        if (response.result) {
+            JoinGlobalRTSParamsModel *model = [JoinGlobalRTSParamsModel yy_modelWithJSON:response.response];
+            if (block) {
+                block(model);
+            }
+        } else {
+            if (block) {
+                block(nil);
+            }
+        }
+    }];
+}
+
 + (void)getJoinRTSParams:(JoinRTSInputModel *)inputModel
                    block:(void (^)(JoinRTSParamsModel *model))block {
     NSString *errorMessage = @"";

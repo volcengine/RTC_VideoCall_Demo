@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.volcengine.vertcdemo.core.eventbus.SolutionDemoEventManager;
@@ -53,6 +55,7 @@ public class SolutionBaseActivity extends AppCompatActivity {
 
     private final HashSet<Integer> mRequestCodes = new HashSet<>();
     private TopTipView mTopTipView;
+    private Fragment mLoadingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -211,14 +214,14 @@ public class SolutionBaseActivity extends AppCompatActivity {
             }
 
             if (!temp.isEmpty()) {
-                ActivityCompat.requestPermissions(this, (String[])temp.toArray(new String[0]), this.generateRequestCode());
+                ActivityCompat.requestPermissions(this, (String[]) temp.toArray(new String[0]), this.generateRequestCode());
             }
         }
     }
 
     private int generateRequestCode() {
         int code;
-        code = (int)(System.currentTimeMillis() % 100L);
+        code = (int) (System.currentTimeMillis() % 100L);
         while (mRequestCodes.contains(code)) {
             ++code;
         }
@@ -258,10 +261,16 @@ public class SolutionBaseActivity extends AppCompatActivity {
 
     private void onNetworkUnavailable() {
         Log.d(TAG, "onNetworkUnavailable()");
+
         if (mTopTipView == null) {
             mTopTipView = new TopTipView(this);
+        } else if (mTopTipView.getParent() != null) {
+            ViewParent parent = mTopTipView.getParent();
+            if (parent instanceof ViewGroup){
+                ((ViewGroup) parent).removeView(mTopTipView);
+            }
         }
-        
+
         ViewGroup rootView = ((ViewGroup) findViewById(android.R.id.content));
         if (rootView != null) {
             rootView.addView(mTopTipView);
@@ -281,21 +290,24 @@ public class SolutionBaseActivity extends AppCompatActivity {
     }
 
     public void showLoadingDialog() {
-        Fragment prev = getSupportFragmentManager().findFragmentByTag(LOADING_FRAGMENT_TAG);
-        if (prev != null) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(LOADING_FRAGMENT_TAG);
+        if (fragment != null) {
             return;
         }
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(new ProgressDialogFragment(), LOADING_FRAGMENT_TAG);
-        ft.commit();
+        if (mLoadingFragment == null) {
+            mLoadingFragment = new ProgressDialogFragment();
+        }
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.add(mLoadingFragment, LOADING_FRAGMENT_TAG);
+        ft.commitAllowingStateLoss();
     }
 
     public void dismissLoadingDialog() {
-        Fragment prev = getSupportFragmentManager().findFragmentByTag(LOADING_FRAGMENT_TAG);
-        if (prev != null) {
+        if (mLoadingFragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.remove(prev);
-            ft.commit();
+            ft.remove(mLoadingFragment);
+            ft.commitAllowingStateLoss();
         }
     }
 }

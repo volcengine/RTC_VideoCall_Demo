@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_page"
+    android:paddingTop="24dp"
+    tools:context=".contact.ContactsActivity">
+
+    <!--title bar-->
+    <com.volcengine.vertcdemo.common.CommonTitleLayout
+        android:id="@+id/title_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/top_tip"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/black_66"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_bar_layout">
+
+        <ImageView
+            android:id="@+id/warn_ic"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/icon_warning"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingRight="8dp"
+            android:layout_marginStart="10dp"
+            android:paddingBottom="4dp"
+            android:text="@string/experiencing_duration_hint"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <!--search view-->
+    <EditText
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_search_view"
+        android:drawablePadding="10dp"
+        android:hint="@string/search_bar_placehold"
+        android:imeOptions="actionSearch"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="10"
+        android:paddingStart="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_66"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_tip"
+        app:queryBackground="@drawable/bg_search_view"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:text="@string/search"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="@+id/search_view"
+        app:layout_constraintTop_toTopOf="@+id/search_view"
+        app:layout_constraintBottom_toBottomOf="@+id/search_view" />
+
+    <!--self id-->
+    <TextView
+        android:id="@+id/self_id_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawablePadding="8dp"
+        android:paddingStart="5dp"
+        android:gravity="center"
+        android:textColor="@color/gray_86909C"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view"
+        tools:ignore="RtlSymmetry"
+        tools:text="我的ID:  732734" />
+
+    <!--empty view-->
+    <LinearLayout
+        android:id="@+id/empty_hint_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/self_id_tv">
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/empty_view"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/user_list_empty_tip"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!--search result-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_result_rcv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/self_id_tv"/>
+
+    <!--contacts list-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_history_rcv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_result_rcv"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

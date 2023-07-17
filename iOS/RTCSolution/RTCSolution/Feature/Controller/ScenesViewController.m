@@ -10,6 +10,9 @@
 #import "Masonry.h"
 #import "ToolKit.h"
 
+/// 音视频通话场景通话状态 0：空闲 1：视频通话 2：语音通话
+int VideoCallOnTheCallType;
+
 @interface ScenesViewController ()
 
 @property (nonatomic, strong) UIImageView *iconImageView;
@@ -82,6 +85,34 @@
 - (void)sceneButtonAction:(ScenesItemButton *)button {
     // 打开对应场景首页
     button.enabled = NO;
+    
+    if (VideoCallOnTheCallType > 0 && ![button.model.scenesName isEqualToString:@"videoone"]) {
+        // 音视频通话在通话中
+        AlertActionModel *alertCancelModel = [[AlertActionModel alloc] init];
+        alertCancelModel.title = LocalizedStringFromBundle(@"cancel", @"");
+        __weak typeof(self) weakSelf = self;
+        alertCancelModel.alertModelClickBlock = ^(UIAlertAction * _Nonnull action) {
+            button.enabled = YES;
+        };
+        
+        AlertActionModel *alertModel = [[AlertActionModel alloc] init];
+        alertModel.title = LocalizedStringFromBundle(@"ok", @"");
+        alertModel.alertModelClickBlock = ^(UIAlertAction * _Nonnull action) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationCloseVideoCallNarrow object:nil userInfo:nil];
+            [weakSelf pushDemoViewController:button];
+        };
+        NSString *message = LocalizedStringFromBundle(@"video_call_in_audio_calling_tip", @"");
+        if (VideoCallOnTheCallType == 1) {
+            message = LocalizedStringFromBundle(@"video_call_in_video_calling_tip", @"");
+        }
+        [[AlertActionManager shareAlertActionManager] showWithMessage:message actions:@[alertCancelModel, alertModel]];
+        return;
+    } else {
+        [self pushDemoViewController:button];
+    }
+}
+
+- (void)pushDemoViewController:(ScenesItemButton *)button {
     BaseHomeDemo *scenes = (BaseHomeDemo *)button.model.scenes;
     scenes.scenesName = button.model.scenesName;
     [[ToastComponent shareToastComponent] showLoading];
@@ -131,6 +162,16 @@
     if (_dataArray == nil) {
         _dataArray = [NSMutableArray array];
         
+        NSObject *videoCallDemo = [[NSClassFromString(@"VideoCallDemo") alloc] init];
+        if (videoCallDemo) {
+            SceneButtonModel *model = [[SceneButtonModel alloc] init];
+            model.title = LocalizedStringFromBundle(@"audio_video_calls", @"");
+            model.iconName = @"menu_videocall";
+            model.scenes = videoCallDemo;
+            model.scenesName = @"videoone";
+            [_dataArray addObject:model];
+        }
+        
         NSObject *chorusDemo = [[NSClassFromString(@"ChorusDemo") alloc] init];
         if (chorusDemo) {
             SceneButtonModel *model = [[SceneButtonModel alloc] init];
@@ -161,12 +202,12 @@
             [_dataArray addObject:model];
         }
 
-        NSObject *videoCallDemo = [[NSClassFromString(@"VideoCallDemo") alloc] init];
-        if (videoCallDemo) {
+        NSObject *groupVideoCallDemo = [[NSClassFromString(@"GroupVideoCallDemo") alloc] init];
+        if (groupVideoCallDemo) {
             SceneButtonModel *model = [[SceneButtonModel alloc] init];
-            model.title = LocalizedStringFromBundle(@"audio_video_calls", @"");
-            model.iconName = @"menu_videocall";
-            model.scenes = videoCallDemo;
+            model.title = LocalizedStringFromBundle(@"group_audio_video_calls", @"");
+            model.iconName = @"menu_groupvideocall";
+            model.scenes = groupVideoCallDemo;
             model.scenesName = @"videocall";
             [_dataArray addObject:model];
         }

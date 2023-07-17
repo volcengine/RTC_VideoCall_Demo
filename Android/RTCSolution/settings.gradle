@@ -5,5 +5,9 @@ rootProject.name = "veRTC_Demo"
 
 include ':component:LoginKit'
 include ':component:JoinRTSParamsKit'
+include ':component:ByteEffectSDK'
 
+
+include ':component:IM'
+include ':component:VolcEngineRTS'
 include ':solutions:videocall'

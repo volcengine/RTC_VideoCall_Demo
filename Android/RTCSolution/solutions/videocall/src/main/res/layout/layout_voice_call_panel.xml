@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/voice_call_panel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Space
+        android:id="@+id/placeholder_space"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/calling_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder_space"
+        tools:text="正在等待对方接听...." />
+
+    <ImageView
+        android:id="@+id/microphone_toggler_btn"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/bg_control_panel_btn"
+        android:padding="20dp"
+        android:src="@drawable/ic_microphone_on"
+        app:layout_constraintEnd_toStartOf="@+id/audio_route_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calling_hint_tv" />
+
+    <TextView
+        android:id="@+id/microphone_toggler_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/microphone"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@+id/microphone_toggler_btn"
+        app:layout_constraintStart_toStartOf="@+id/microphone_toggler_btn"
+        app:layout_constraintTop_toBottomOf="@+id/microphone_toggler_btn" />
+
+    <ImageView
+        android:id="@+id/audio_route_btn"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/bg_control_panel_btn"
+        android:padding="20dp"
+        android:src="@drawable/ic_audio_route_speaker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/microphone_toggler_btn"
+        app:layout_constraintTop_toBottomOf="@+id/calling_hint_tv" />
+
+    <TextView
+        android:id="@+id/audio_route_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:text="@string/earpiece"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@+id/audio_route_btn"
+        app:layout_constraintStart_toStartOf="@+id/audio_route_btn"
+        app:layout_constraintTop_toBottomOf="@+id/audio_route_btn" />
+
+    <ImageView
+        android:id="@+id/hangup_btn"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/bg_control_panel_btn"
+        android:src="@drawable/ic_hangup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dial_btn"
+        app:layout_constraintTop_toBottomOf="@+id/microphone_toggler_btn" />
+
+    <ImageView
+        android:id="@+id/dial_btn"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/bg_control_panel_btn"
+        android:src="@drawable/ic_dial_put_through"
+        app:layout_constraintStart_toEndOf="@+id/hangup_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/microphone_toggler_btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

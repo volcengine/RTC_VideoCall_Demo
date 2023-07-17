@@ -1,17 +1,14 @@
-// Copyright (c) 2023 Beijing Volcano Engine Technology Ltd.
-// SPDX-License-Identifier: MIT
-
 package com.volcengine.vertcdemo.videocall;
-
-import android.content.Context;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
+
+import android.content.Context;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -24,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.vertcdemo.videocall", appContext.getPackageName());
+        assertEquals("com.volcengine.vertcdemo.videocall", appContext.getPackageName());
     }
 }

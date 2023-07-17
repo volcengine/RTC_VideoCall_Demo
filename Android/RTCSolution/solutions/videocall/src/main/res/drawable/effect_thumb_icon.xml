@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="14dp"
+    android:height="14dp">
+
+    <item
+        android:width="14dp"
+        android:height="14dp"
+        android:drawable="@drawable/effect_seekbar_thumb"
+        tools:ignore="UnusedAttribute" />
+</layer-list>

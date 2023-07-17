@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
   
   spec.source_files = '**/*.{h,m,c,mm}'
   spec.resource_bundles = {
-    'VideoCallDemo' => ['Resource/*.{xcassets,bundle}']
+    'VideoCallDemo' => ['Resource/*.{xcassets,bundle,mp3}']
   }
   spec.pod_target_xcconfig = {'CODE_SIGN_IDENTITY' => ''}
   spec.prefix_header_contents = '#import "Masonry.h"',

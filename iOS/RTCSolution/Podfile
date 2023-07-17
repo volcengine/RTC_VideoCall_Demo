@@ -1,4 +1,4 @@
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 source 'https://github.com/volcengine/volcengine-specs.git'
 
 # RTC SDK
@@ -24,6 +24,8 @@ target 'RTCSolution' do
   
   # 音视频通话
   pod 'VideoCallDemo', :path => '../RTCSolution/APP/VideoCallDemo'
+  pod 'AllEffectKit', :path => '../RTCSolution/APP/AllEffectKit'
+  pod 'AllIMKit', :path => './APP/AllIMKit'
   
 end
 

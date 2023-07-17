@@ -1,6 +1,3 @@
-// Copyright (c) 2023 Beijing Volcano Engine Technology Ltd.
-// SPDX-License-Identifier: MIT
-
 package com.volcengine.vertcdemo.videocall;
 
 import org.junit.Test;

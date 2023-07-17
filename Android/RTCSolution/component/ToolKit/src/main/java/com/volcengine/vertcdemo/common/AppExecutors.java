@@ -6,13 +6,14 @@ package com.volcengine.vertcdemo.common;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AppExecutors {
     private static final AppExecutors sInstance = new AppExecutors();
-
     private final ExecutorService mDiskIO = Executors.newSingleThreadExecutor();
     private final ExecutorService mNetworkIO = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final Handler mMainHandler = new Handler(Looper.getMainLooper());
@@ -31,6 +32,14 @@ public class AppExecutors {
 
     public static Handler mainHandler() {
         return sInstance.mMainHandler;
+    }
+
+    public static void execRunnableInMainThread(@NonNull Runnable runnable) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            runnable.run();
+        } else {
+            mainThread().execute(runnable);
+        }
     }
 
     public static ExecutorService networkIO() {

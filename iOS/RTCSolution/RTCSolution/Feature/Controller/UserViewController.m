@@ -132,6 +132,7 @@
 
 - (void)onClickLogoutRoom {
     [[NSNotificationCenter defaultCenter] postNotificationName:NotificationLoginExpired object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationCloseVideoCallNarrow object:nil];
 }
 
 #pragma mark - Getter
