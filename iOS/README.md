@@ -43,7 +43,7 @@
 	<img src="https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_1f317c652c99f12fbdb15ed7c5155d8a.png" width="500px" >
 	
 5. 填写 HeadUrl<br>
-    HeadUrl是业务服务器的域名，你可以使用 `https://common.rtc.volcvideo.com/rtc\_demo\_special` 作为测试服务器域名，仅提供跑通测试服务，体验Demo功能，无法保障正式需求。<br>
+    HeadUrl是业务服务器的域名，你可以使用 `https://common.rtc.volcvideo.com/rtc_demo_special` 作为测试服务器域名，仅提供跑通测试服务，体验Demo功能，无法保障正式需求。<br>
     <img src="https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_441f5526c103bca2b01c600416f45060.png" width="500px" >
 
 6. 填写 APPID、APPKey、AccessKeyID 和 SecretAccessKey<br>
